@@ -65,4 +65,7 @@ dependencies {
 
     // CameraX View class
     implementation 'androidx.camera:camera-view:1.0.0-alpha25'
+
+    //Import Facebook
+    implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
 }

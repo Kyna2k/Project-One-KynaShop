@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">KynaShop</string>
     <string name="timhieuthem">Gặp vận đề về đăng nhập? <font color="#40BFFF"><b> Tìm hiểu thêm</b></font></string>
+    <string name="facebook_app_id">651884059991741</string>
+    <string name="facebook_client_token">4f7d3527b7ab6ecf3466d539b1d3911a</string>
+
+
+
 </resources>
