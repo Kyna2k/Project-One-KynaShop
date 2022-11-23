@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kynashop.R;
@@ -52,14 +53,20 @@ public class LoginActivity extends AppCompatActivity {
         btn_dangnhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PhoneAuthOptions options = PhoneAuthOptions.newBuilder()
-                        .setPhoneNumber("+84" +number_phone.getText().toString())
-                        .setTimeout(60L, TimeUnit.SECONDS)
-                        .setActivity(LoginActivity.this)
-                        .setCallbacks(mCallbacks)
-                        .build();
-                PhoneAuthProvider.verifyPhoneNumber(options);
-                dialog_OTP();
+//                if(number_phone.getText().toString().length() >= 10 && number_phone.getText().toString().length() <=12)
+//                {
+//                    PhoneAuthOptions options = PhoneAuthOptions.newBuilder()
+//                            .setPhoneNumber("+84" +number_phone.getText().toString())
+//                            .setTimeout(60L, TimeUnit.SECONDS)
+//                            .setActivity(LoginActivity.this)
+//                            .setCallbacks(mCallbacks)
+//                            .build();
+//                    PhoneAuthProvider.verifyPhoneNumber(options);
+//                    dialog_OTP();
+//                }else {
+//                    Toast.makeText(LoginActivity.this, "Vui lòng nhập đúng định dạng số điện thoại", Toast.LENGTH_SHORT).show();
+//                }
+
             }
         });
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -99,14 +106,19 @@ public class LoginActivity extends AppCompatActivity {
         View view = getLayoutInflater().inflate(R.layout.diaglog_otp,null);
         otp = view.findViewById(R.id.otp);
         Button btn_xacthuc = view.findViewById(R.id.btn_xacthuc);
+        TextView phone_number = view.findViewById(R.id.phone_number);
+        phone_number.setText("+84 " + number_phone.getText().toString());
         builder.setView(view);
         alertDialog = builder.create();
         alertDialog.show();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         btn_xacthuc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getOTP(otp.getText().toString());
+
             }
         });
     }
@@ -123,14 +135,14 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("check", "signInWithCredential:success");
-
+                            alertDialog.dismiss();
                             FirebaseUser user = task.getResult().getUser();
                             // Update UI
                             Toast.makeText(LoginActivity.this, "Thành Công", Toast.LENGTH_SHORT).show();
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w("check", "signInWithCredential:failure", task.getException());
-
+                            Toast.makeText(LoginActivity.this, "Lỗi", Toast.LENGTH_SHORT).show();
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
                             }
