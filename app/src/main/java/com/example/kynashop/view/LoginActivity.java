@@ -20,9 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kynashop.R;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +41,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -79,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 //                }else {
 //                    Toast.makeText(LoginActivity.this, "Vui lòng nhập đúng định dạng số điện thoại", Toast.LENGTH_SHORT).show();
 //                }
-
+                LoginManager.getInstance().logOut();
             }
         });
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -123,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.i("Facebook", "onSuccess: " + loginResult.toString());
+                getUserProfile(loginResult.getAccessToken());
             }
 
             @Override
@@ -148,8 +156,28 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode,resultCode,data);
     }
+    private void getUserProfile(AccessToken accessToken) {
+        GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                try {
+                    String name = object.getString("name");
+                    String email = object.getString("id");
+                    String image = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-    private void dialog_OTP()
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email,picture.width(200)");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+
+        private void dialog_OTP()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.diaglog_otp,null);
