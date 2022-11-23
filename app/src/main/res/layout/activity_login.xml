@@ -48,13 +48,14 @@
         android:layout_marginTop="28dp"
         android:id="@+id/edt_username"
         style="@style/edit_dangky"
+        app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:startIconDrawable="@drawable/ic_round_phone_24">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/username"
+            android:id="@+id/number_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập SĐT"
@@ -161,4 +162,26 @@
                 android:textSize="14sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:id="@+id/btn_dangky"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="@string/timhieuthem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_facebook" />
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppinsregular"
+        android:gravity="center"
+        android:text="Sản phẩm thuộc KynaLab"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

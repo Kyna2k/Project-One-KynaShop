@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "594861972565",
+    "project_id": "kynashop-1dfbb",
+    "storage_bucket": "kynashop-1dfbb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594861972565:android:69b882b5594c782e6788dc",
+        "android_client_info": {
+          "package_name": "com.example.kynashop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594861972565-qkpefu392nffunhcn82ml3hdhevricee.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kynashop",
+            "certificate_hash": "310c7cbbb332daf863adc87fd724313b9f998c15"
+          }
+        },
+        {
+          "client_id": "594861972565-pqqgikg29kc948onnlc80bfgoikhcoqs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7GvcHernnBNh69KGy5AOar8D7cKKE4E4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594861972565-pqqgikg29kc948onnlc80bfgoikhcoqs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
