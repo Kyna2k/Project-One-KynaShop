@@ -1,5 +1,7 @@
 package com.example.kynashop.view;
 
+import static com.example.kynashop.API.API_Services.BASE_Service;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -7,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -19,7 +22,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kynashop.API.API_Services;
 import com.example.kynashop.R;
+import com.example.kynashop.model.KhachHang;
+import com.example.kynashop.model.LoginModel;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -41,12 +47,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
     private Button btn_dangnhap;
@@ -59,10 +72,16 @@ public class LoginActivity extends AppCompatActivity {
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private CallbackManager callbackManager;
+    private API_Services requestInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        requestInterface = new Retrofit.Builder()
+                .baseUrl(BASE_Service)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build().create(API_Services.class);
         //Code nay là để cái chữ ở thang statucbar có màu đen (thanh thông báo)
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         btn_dangnhap = findViewById(R.id.btn_dangnhap);
@@ -86,7 +105,9 @@ public class LoginActivity extends AppCompatActivity {
 //                }else {
 //                    Toast.makeText(LoginActivity.this, "Vui lòng nhập đúng định dạng số điện thoại", Toast.LENGTH_SHORT).show();
 //                }
-                LoginManager.getInstance().logOut();
+                LoginModel loginModel = new LoginModel(number_phone.getText().toString(),1);
+                login(loginModel);
+
             }
         });
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -149,6 +170,31 @@ public class LoginActivity extends AppCompatActivity {
                 LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile"));
             }
         });
+    }
+    private void login(LoginModel loginModel)
+    {
+        new CompositeDisposable().add(requestInterface.login(loginModel)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleResponse, this::handleError)
+        );
+    }
+
+    private void handleError(Throwable throwable) {
+        Toast.makeText(this, "Lỗi đăng nhập", Toast.LENGTH_SHORT).show();
+    }
+
+    private void handleResponse(KhachHang khachHang) {
+        SharedPreferences sharedPreferences = getSharedPreferences("KhachHach",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("makhachhang",khachHang.getMaKhachHang());
+        editor.apply();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user",khachHang);
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
     }
 
     @Override
@@ -215,6 +261,7 @@ public class LoginActivity extends AppCompatActivity {
                             alertDialog.dismiss();
                             FirebaseUser user = task.getResult().getUser();
                             // Update UI
+
                             Toast.makeText(LoginActivity.this, "Thành Công", Toast.LENGTH_SHORT).show();
                         } else {
                             // Sign in failed, display a message and update the UI
@@ -227,4 +274,5 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }
