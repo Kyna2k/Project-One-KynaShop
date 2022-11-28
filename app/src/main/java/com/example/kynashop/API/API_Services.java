@@ -1,7 +1,13 @@
 package com.example.kynashop.API;
 
 import com.example.kynashop.model.KhachHang;
+import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.LoginModel;
+import com.example.kynashop.model.NhaSanXuat;
+import com.example.kynashop.model.SanPhamTop10;
+import com.example.kynashop.model.SanPhams;
+
+import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -17,4 +23,16 @@ public interface API_Services {
     @POST("login")
     Observable<KhachHang> login(@Body LoginModel loginModel);
 
+
+    @GET("getAllKhuyenMai")
+    Observable<ArrayList<KhuyenMai>> getAllKhuyenMai();
+
+    @GET("getAllNhaSanXuat")
+    Observable<ArrayList<NhaSanXuat>> getAllNhaSanXuat();
+
+    @GET("getAllSanPham")
+    Observable<ArrayList<SanPhams>> getAllSanPham();
+
+    @GET("getTopSanPham")
+    Observable<ArrayList<SanPhamTop10>>getTopSanPham();
 }
