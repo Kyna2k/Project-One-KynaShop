@@ -11,13 +11,14 @@ public class SanPhams {
     private int maNhaSanXuat;
     private String mota;
     private int trangThai;
-    private Integer maKhuyenMai;
+    private int maKhuyenMai;
+    private String thongSo;
     private ArrayList<Comment> commentApis;
     private ArrayList<Hinh> hinhs;
     public SanPhams() {
     }
 
-    public SanPhams(int maSanPham, String tenSanPham, Long giaGoc, Long giaBan, int soLuongTrongKho, int maNhaSanXuat, String mota, int trangThai, Integer maKhuyenMai, ArrayList<Comment> commentApis, ArrayList<Hinh> hinhs) {
+    public SanPhams(int maSanPham, String tenSanPham, Long giaGoc, Long giaBan, int soLuongTrongKho, int maNhaSanXuat, String mota, int trangThai, int maKhuyenMai, String thongSo, ArrayList<Comment> commentApis, ArrayList<Hinh> hinhs) {
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
         this.giaGoc = giaGoc;
@@ -27,6 +28,7 @@ public class SanPhams {
         this.mota = mota;
         this.trangThai = trangThai;
         this.maKhuyenMai = maKhuyenMai;
+        this.thongSo = thongSo;
         this.commentApis = commentApis;
         this.hinhs = hinhs;
     }
@@ -95,12 +97,20 @@ public class SanPhams {
         this.trangThai = trangThai;
     }
 
-    public Integer getMaKhuyenMai() {
+    public int getMaKhuyenMai() {
         return maKhuyenMai;
     }
 
-    public void setMaKhuyenMai(Integer maKhuyenMai) {
+    public void setMaKhuyenMai(int maKhuyenMai) {
         this.maKhuyenMai = maKhuyenMai;
+    }
+
+    public String getThongSo() {
+        return thongSo;
+    }
+
+    public void setThongSo(String thongSo) {
+        this.thongSo = thongSo;
     }
 
     public ArrayList<Comment> getCommentApis() {

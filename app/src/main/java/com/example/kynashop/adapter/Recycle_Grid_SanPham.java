@@ -2,8 +2,10 @@ package com.example.kynashop.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannedString;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -21,6 +24,7 @@ import com.example.kynashop.R;
 import com.example.kynashop.model.Convent_Money;
 import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.SanPhams;
+import com.example.kynashop.view.MainActivity;
 
 import java.util.ArrayList;
 
@@ -55,7 +59,7 @@ public class Recycle_Grid_SanPham extends RecyclerView.Adapter<Recycle_Grid_SanP
         }
         holder.ten_sp.setText(ds.get(position).getTenSanPham());
         holder.khuyenMai.setVisibility(View.GONE);
-        if(ds.get(position).getMaKhuyenMai() != null)
+        if(ds.get(position).getMaKhuyenMai() != 0)
         {
             for(KhuyenMai khuyenMai : ds_khuyenmai)
             {
@@ -75,6 +79,17 @@ public class Recycle_Grid_SanPham extends RecyclerView.Adapter<Recycle_Grid_SanP
             holder.gia_goc.setText(Convent_Money.money(ds.get(position).getGiaGoc()));
             holder.khuyenMai.setVisibility(View.GONE);
         }
+        holder.grid_sanpham.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                Bundle build = new Bundle();
+                build.putInt("MASANPHAM",ds.get(holder.getAdapterPosition()).getMaSanPham());
+                intent.putExtras(build);
+                intent.setAction("CHITIETSANPHAM");
+                ((MainActivity)context).sendBroadcast(intent);
+            }
+        });
     }
 
     @Override
@@ -83,6 +98,7 @@ public class Recycle_Grid_SanPham extends RecyclerView.Adapter<Recycle_Grid_SanP
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        CardView grid_sanpham;
         ImageView hinh_laotop;
         TextView ten_sp,gia_ban,gia_goc,khuyenMai;
         public ViewHolder(@NonNull View itemView) {
@@ -92,6 +108,7 @@ public class Recycle_Grid_SanPham extends RecyclerView.Adapter<Recycle_Grid_SanP
             gia_ban = itemView.findViewById(R.id.gia_ban);
             gia_goc = itemView.findViewById(R.id.gia_goc);
             khuyenMai = itemView.findViewById(R.id.khuyenMai);
+            grid_sanpham = itemView.findViewById(R.id.grid_sanpham);
         }
     }
 }

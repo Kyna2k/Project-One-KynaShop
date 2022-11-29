@@ -35,4 +35,13 @@ public interface API_Services {
 
     @GET("getTopSanPham")
     Observable<ArrayList<SanPhamTop10>>getTopSanPham();
+
+    @GET("getchitietSanPham")
+    Observable<SanPhams> getchitietSanPham(@Query("maSanPham") int maSanPham);
+
+    @GET("getKhuyenMai")
+    Observable<KhuyenMai> getKhuyenMai(@Query("MaKhuyenMai") int MaKhuyenMai);
+
+    @GET("getNhaSanXuat")
+    Observable<NhaSanXuat> getNhaSanXuat(@Query("MaNhaSanXuat") int MaNhaSanXuat);
 }

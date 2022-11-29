@@ -8,11 +8,11 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppinsbold"
         android:text="TOP LAPTOP ĐƯỢC BÁN NHIỀU NHẤT"
-        android:textColor="#E6A519"
+        android:textColor="@color/app_title_text"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

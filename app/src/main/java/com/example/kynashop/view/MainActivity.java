@@ -8,9 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.example.kynashop.API.API_Services;
 import com.example.kynashop.R;
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView menu;
     private MainLayoutViewPager2 mainLayoutViewPager2;
     private API_Services requestInterface;
+    private IntentFilter intentFilter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(API_Services.class);
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("CHITIETSANPHAM");
         main_layout = findViewById(R.id.main_layout);
         menu = findViewById(R.id.menu);
         mainLayoutViewPager2 = new MainLayoutViewPager2(this);
@@ -135,4 +143,33 @@ public class MainActivity extends AppCompatActivity {
         };
         recyclerView.addOnItemTouchListener(onTouchListener);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(getclick,intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(getclick);
+    }
+
+    public BroadcastReceiver getclick = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction())
+            {
+                case "CHITIETSANPHAM":
+                    int MASANPHAM = intent.getExtras().getInt("MASANPHAM");
+                    Intent intentSend = new Intent(MainActivity.this,ChiTietSanPhamActivity.class);
+                    intentSend.putExtra("MASANPHAM",MASANPHAM);
+                    startActivity(intentSend);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }
