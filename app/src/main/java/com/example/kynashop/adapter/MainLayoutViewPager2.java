@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.kynashop.fragment.Fragment_GioHang;
 import com.example.kynashop.fragment.Fragment_Top10;
 import com.example.kynashop.fragment.Fragment_TrangChu;
 
@@ -24,6 +25,8 @@ public class MainLayoutViewPager2 extends FragmentStateAdapter {
                 return Fragment_TrangChu.getInstance();
             case 1:
                 return Fragment_Top10.getInstance();
+            case 2:
+                return Fragment_GioHang.getInstance();
 
             default:
                 return Fragment_TrangChu.getInstance();

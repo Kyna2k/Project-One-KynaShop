@@ -65,9 +65,10 @@ public class Recycle_Grid_SanPham extends RecyclerView.Adapter<Recycle_Grid_SanP
             {
                 if(ds.get(position).getMaKhuyenMai() == khuyenMai.getMaKhuyenMai())
                 {
-                    Long gia = ds.get(position).getGiaGoc()*((100-khuyenMai.getPhanTramKhuyenMai())*100);
+                    Double x = Double.valueOf(khuyenMai.getPhanTramKhuyenMai() + "") ;
+                    Double gia = ds.get(position).getGiaGoc()*(Double)((100-x)/100);
                     holder.gia_ban.setText(Convent_Money.money(gia));
-                    holder.gia_goc.setText(Convent_Money.money(ds.get(position).getGiaGoc()));
+                    holder.gia_goc.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));
                     holder.gia_goc.setPaintFlags(holder.gia_ban.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
                     holder.khuyenMai.setVisibility(View.VISIBLE);
                     holder.khuyenMai.setText(String.valueOf(khuyenMai.getPhanTramKhuyenMai())+"%");
@@ -75,8 +76,8 @@ public class Recycle_Grid_SanPham extends RecyclerView.Adapter<Recycle_Grid_SanP
                 }
             }
         }else {
-            holder.gia_ban.setText(Convent_Money.money(ds.get(position).getGiaGoc()));
-            holder.gia_goc.setText(Convent_Money.money(ds.get(position).getGiaGoc()));
+            holder.gia_ban.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));
+            holder.gia_goc.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));
             holder.khuyenMai.setVisibility(View.GONE);
         }
         holder.grid_sanpham.setOnClickListener(new View.OnClickListener() {

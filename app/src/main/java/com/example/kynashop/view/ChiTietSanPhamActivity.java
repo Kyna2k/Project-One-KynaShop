@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.example.kynashop.adapter.Recycle_List_Comment;
 import com.example.kynashop.model.Comment;
 import com.example.kynashop.model.Convent_Money;
 import com.example.kynashop.model.Hinh;
+import com.example.kynashop.model.KhachHangAddSanPhamVaoGioHang;
 import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.NhaSanXuat;
 import com.example.kynashop.model.SanPhams;
@@ -83,7 +85,39 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
                 finish();
             }
         });
+        themgiohang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                themsanpham(sanPhams_get);
+            }
+        });
     }
+
+    private void themsanpham(SanPhams sanPhams_get2) {
+        int makhachhang = getSharedPreferences("KhachHach", Context.MODE_PRIVATE).getInt("makhachhang",-1);
+        KhachHangAddSanPhamVaoGioHang khachHangAddSanPhamVaoGioHang = new KhachHangAddSanPhamVaoGioHang(makhachhang,sanPhams_get2.getMaSanPham(),1,sanPhams_get2.getGiaGoc());
+        addSamPhamVaoGioHang(khachHangAddSanPhamVaoGioHang);
+    }
+    public void addSamPhamVaoGioHang(KhachHangAddSanPhamVaoGioHang khachHangAddSanPhamVaoGioHang)
+    {
+        new CompositeDisposable().add(requestInterface.addSanPhamVaoGioHang(khachHangAddSanPhamVaoGioHang)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::addOk, this::addnoOk)
+        );
+    }
+
+    private void addOk(Integer integer) {
+        if(integer > 0)
+        {
+            Toast.makeText(this, "Thêm Thành Công", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addnoOk(Throwable throwable) {
+        Log.e("check_add", "addnoOk: " + throwable.getMessage() );
+    }
+
     public void setDataComment(ArrayList<Comment> ds)
     {
         apdater_comment = new Recycle_List_Comment(this,ds);
@@ -104,6 +138,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         Toast.makeText(this, "Lỗi get" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("NewApi")
     private void getSanPhamOk(SanPhams sanPhams) {
         if(sanPhams != null)
         {
@@ -114,8 +149,8 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
                 KhuyeMai(sanPhams.getMaKhuyenMai());
 
             }else {
-                gia_ban.setText(Convent_Money.money(sanPhams.getGiaGoc()));
-                gia_goc.setText(Convent_Money.money(sanPhams.getGiaGoc()));
+                gia_ban.setText(Convent_Money.money(Double.valueOf(sanPhams_get.getGiaGoc())));
+                gia_goc.setText(Convent_Money.money(Double.valueOf(sanPhams_get.getGiaGoc())));
             }
             getMaNhaSan(sanPhams.getMaNhaSanXuat());
             if(thongso !=null){
@@ -183,15 +218,16 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     private void getKhuyenMaiOk(KhuyenMai khuyenMai) {
         if(khuyenMai != null)
         {
-            Long gia = sanPhams_get.getGiaGoc()*((100-khuyenMai.getPhanTramKhuyenMai())*100);
+            Double x = Double.valueOf(khuyenMai.getPhanTramKhuyenMai() + "") ;
+            Double gia = sanPhams_get.getGiaGoc()*(Double)((100-x)/100);
             gia_ban.setText(Convent_Money.money(gia));
-            gia_goc.setText(Convent_Money.money(sanPhams_get.getGiaGoc()));
+            gia_goc.setText(Convent_Money.money(Double.valueOf(sanPhams_get.getGiaGoc())));
             gia_goc.setPaintFlags(gia_ban.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
             giamgia.setVisibility(View.VISIBLE);
             giamgia.setText(String.valueOf(khuyenMai.getPhanTramKhuyenMai())+"%");
         }else {
-            gia_ban.setText(Convent_Money.money(sanPhams_get.getGiaGoc()));
-            gia_goc.setText(Convent_Money.money(sanPhams_get.getGiaGoc()));
+            gia_ban.setText(Convent_Money.money(Double.valueOf(sanPhams_get.getGiaGoc())));
+            gia_goc.setText(Convent_Money.money(Double.valueOf(sanPhams_get.getGiaGoc())));
         }
     }
 }

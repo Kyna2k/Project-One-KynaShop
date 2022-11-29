@@ -83,7 +83,8 @@ public class Recycle_List_SanPhams extends RecyclerView.Adapter<Recycle_List_San
             {
                 if(ds.get(position).getMaKhuyenMai() == khuyenMai.getMaKhuyenMai())
                 {
-                    Long gia = ds.get(position).getGiaGoc()*((100-khuyenMai.getPhanTramKhuyenMai())*100);
+                    Double x = Double.valueOf(khuyenMai.getPhanTramKhuyenMai() + "") ;
+                    Double gia = ds.get(position).getGiaGoc()*(Double)((100-x)/100);
                     holder.gia.setText(Convent_Money.money(gia));
                     holder.giamgia.setVisibility(View.VISIBLE);
                     holder.giamgia.setText("-"+String.valueOf(khuyenMai.getPhanTramKhuyenMai())+"%");
@@ -91,7 +92,7 @@ public class Recycle_List_SanPhams extends RecyclerView.Adapter<Recycle_List_San
                 }
             }
         }else {
-            holder.gia.setText(Convent_Money.money(ds.get(position).getGiaGoc()));
+            holder.gia.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));
             holder.giamgia.setVisibility(View.GONE);
         }
 

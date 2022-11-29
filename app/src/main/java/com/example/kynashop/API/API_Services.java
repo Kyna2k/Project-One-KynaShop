@@ -1,11 +1,15 @@
 package com.example.kynashop.API;
 
+import com.example.kynashop.model.ChiTietHoaDon;
+import com.example.kynashop.model.HoaDon;
 import com.example.kynashop.model.KhachHang;
+import com.example.kynashop.model.KhachHangAddSanPhamVaoGioHang;
 import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.LoginModel;
 import com.example.kynashop.model.NhaSanXuat;
 import com.example.kynashop.model.SanPhamTop10;
 import com.example.kynashop.model.SanPhams;
+import com.example.kynashop.model.XoaHoaDonGioHang;
 
 import java.util.ArrayList;
 
@@ -44,4 +48,15 @@ public interface API_Services {
 
     @GET("getNhaSanXuat")
     Observable<NhaSanXuat> getNhaSanXuat(@Query("MaNhaSanXuat") int MaNhaSanXuat);
+
+    @GET("getGioHang")
+    Observable<HoaDon> getGioHang(@Query("maKhachHang") int maKhachHang, @Query("trangthai") int trangthai);
+    @POST("updateSoLuongTrongGioHang")
+    Observable<Integer> updateSoLuongTrongGioHang(@Body ChiTietHoaDon chiTietHoaDon);
+
+    @POST("XoaSanPhamKhoiGioHang")
+    Observable<Integer> XoaSanPhamKhoiGioHang (@Body XoaHoaDonGioHang xoaHoaDonGioHang);
+
+    @POST("addSanPhamVaoGioHang")
+    Observable<Integer> addSanPhamVaoGioHang(@Body KhachHangAddSanPhamVaoGioHang khachHangAddSanPhamVaoGioHang);
 }

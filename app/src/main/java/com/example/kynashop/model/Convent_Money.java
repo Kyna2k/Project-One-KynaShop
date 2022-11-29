@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public class Convent_Money {
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static String money(Long money)
+    public static String money(Double money)
     {
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
         String tien = nf.format(money);
