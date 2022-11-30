@@ -2,9 +2,11 @@ package com.example.kynashop.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +25,7 @@ import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.NhaSanXuat;
 import com.example.kynashop.model.SanPhamTop10;
 import com.example.kynashop.model.SanPhams;
+import com.example.kynashop.view.MainActivity;
 
 import java.util.ArrayList;
 
@@ -95,7 +99,17 @@ public class Recycle_List_SanPhams extends RecyclerView.Adapter<Recycle_List_San
             holder.gia.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));
             holder.giamgia.setVisibility(View.GONE);
         }
-
+        holder.list_car.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                Bundle build = new Bundle();
+                build.putInt("MASANPHAM",ds.get(holder.getAdapterPosition()).getMaSanPham());
+                intent.putExtras(build);
+                intent.setAction("CHITIETSANPHAM");
+                ((MainActivity)context).sendBroadcast(intent);
+            }
+        });
     }
 
     @Override
@@ -106,6 +120,7 @@ public class Recycle_List_SanPhams extends RecyclerView.Adapter<Recycle_List_San
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView xephang,ten_sp,ten_nsx,gia,soluong,giamgia;
         ImageView hinh_laptop;
+        CardView list_car;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             xephang = itemView.findViewById(R.id.xephang);
@@ -115,6 +130,8 @@ public class Recycle_List_SanPhams extends RecyclerView.Adapter<Recycle_List_San
             soluong = itemView.findViewById(R.id.soluong);
             giamgia = itemView.findViewById(R.id.giamgia);
             hinh_laptop = itemView.findViewById(R.id.hinh_laptop);
+            list_car = itemView.findViewById(R.id.list_car);
+
 
         }
     }

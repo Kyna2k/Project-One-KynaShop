@@ -59,4 +59,7 @@ public interface API_Services {
 
     @POST("addSanPhamVaoGioHang")
     Observable<Integer> addSanPhamVaoGioHang(@Body KhachHangAddSanPhamVaoGioHang khachHangAddSanPhamVaoGioHang);
+
+    @GET("getKhachHang")
+    Observable<KhachHang> getKhachHang(@Query("maKhachHang") int maKhachHang);
 }

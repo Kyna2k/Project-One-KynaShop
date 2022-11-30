@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +39,12 @@ public class Recycle_NhaSanXuat extends RecyclerView.Adapter<Recycle_NhaSanXuat.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Glide.with(context).load(ds.get(position).getHinh()).into(holder.hinh_nsx);
+        holder.click_nsx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -47,9 +54,11 @@ public class Recycle_NhaSanXuat extends RecyclerView.Adapter<Recycle_NhaSanXuat.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView hinh_nsx;
+        CardView click_nsx;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             hinh_nsx = itemView.findViewById(R.id.hinh_nsx);
+            click_nsx = itemView.findViewById(R.id.click_nsx);
         }
     }
 }
