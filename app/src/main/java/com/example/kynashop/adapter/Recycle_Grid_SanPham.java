@@ -61,20 +61,26 @@ public class Recycle_Grid_SanPham extends RecyclerView.Adapter<Recycle_Grid_SanP
         holder.khuyenMai.setVisibility(View.GONE);
         if(ds.get(position).getMaKhuyenMai() != 0)
         {
-            for(KhuyenMai khuyenMai : ds_khuyenmai)
-            {
-                if(ds.get(position).getMaKhuyenMai() == khuyenMai.getMaKhuyenMai())
+            try {
+                for(KhuyenMai khuyenMai : ds_khuyenmai)
                 {
-                    Double x = Double.valueOf(khuyenMai.getPhanTramKhuyenMai() + "") ;
-                    Double gia = ds.get(position).getGiaGoc()*(Double)((100-x)/100);
-                    holder.gia_ban.setText(Convent_Money.money(gia));
-                    holder.gia_goc.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));
-                    holder.gia_goc.setPaintFlags(holder.gia_ban.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-                    holder.khuyenMai.setVisibility(View.VISIBLE);
-                    holder.khuyenMai.setText(String.valueOf(khuyenMai.getPhanTramKhuyenMai())+"%");
-                    break;
+                    if(ds.get(position).getMaKhuyenMai() == khuyenMai.getMaKhuyenMai())
+                    {
+                        Double x = Double.valueOf(khuyenMai.getPhanTramKhuyenMai() + "") ;
+                        Double gia = ds.get(position).getGiaGoc()*(Double)((100-x)/100);
+                        holder.gia_ban.setText(Convent_Money.money(gia));
+                        holder.gia_goc.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));
+                        holder.gia_goc.setPaintFlags(holder.gia_ban.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+                        holder.khuyenMai.setVisibility(View.VISIBLE);
+                        holder.khuyenMai.setText(String.valueOf(khuyenMai.getPhanTramKhuyenMai())+"%");
+                        break;
+                    }
                 }
+            }catch (Exception e)
+            {
+                e.printStackTrace();
             }
+
         }else {
             holder.gia_ban.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));
             holder.gia_goc.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));

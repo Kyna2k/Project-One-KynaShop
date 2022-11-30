@@ -4,6 +4,7 @@
     android:padding="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
+
     <com.google.android.material.appbar.AppBarLayout
         app:elevation="0dp"
         android:background="@android:color/transparent"
@@ -13,16 +14,39 @@
         android:layout_width="match_parent"
         app:layout_scrollFlags="scroll"
         android:layout_height="match_parent">
-        <com.denzcoskun.imageslider.ImageSlider
-            app:iss_corner_radius="16"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_search"
+            app:boxStrokeColor="@android:color/transparent"
+            app:boxStrokeWidth="0dp"
+            android:enabled="false"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@mipmap/search24"
+            app:startIconTint="@color/app_color_main">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/timkiem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Tìm kiếm sản phẩm"
+                android:textSize="12sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.denzcoskun.imageslider.ImageSlider
+            android:layout_marginTop="20dp"
             android:id="@+id/Slide_khuyenMai"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:iss_auto_cycle="true"
-            app:iss_period="1000"
+            app:iss_corner_radius="16"
             app:iss_delay="0"
-            app:iss_placeholder="@mipmap/loading"/>
+            app:iss_period="1000"
+            app:iss_placeholder="@mipmap/loading"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
         <TextView
             android:paddingTop="5dp"

@@ -18,6 +18,7 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.kynashop.API.API_Services;
+import com.example.kynashop.LoadingSreen.LoadingScreen;
 import com.example.kynashop.R;
 import com.example.kynashop.adapter.Recycle_Grid_SanPham;
 import com.example.kynashop.adapter.Recycle_NhaSanXuat;
@@ -69,6 +70,7 @@ public class Fragment_TrangChu extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        LoadingScreen.LoadingShow(getContext(),"Đang tải");
         ViewPager2 viewPager2 = ((MainActivity)getActivity()).viewPager2();
         list_nsx = view.findViewById(R.id.list_nsx);
         Slide_khuyenMai = view.findViewById(R.id.Slide_khuyenMai);
@@ -107,6 +109,7 @@ public class Fragment_TrangChu extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
         list_sanpham.setLayoutManager(gridLayoutManager);
         list_sanpham.setAdapter(apdater_sanpham);
+        LoadingScreen.LoadingDismi();
     }
     private void getDataNSX(ArrayList<NhaSanXuat> ds)
     {

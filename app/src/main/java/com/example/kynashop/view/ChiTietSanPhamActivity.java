@@ -22,6 +22,7 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.kynashop.API.API_Services;
+import com.example.kynashop.LoadingSreen.LoadingScreen;
 import com.example.kynashop.R;
 import com.example.kynashop.adapter.Recycle_List_Comment;
 import com.example.kynashop.model.Comment;
@@ -57,6 +58,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chi_tiet_san_pham);
+        LoadingScreen.LoadingShow(this,"Đang tải thông tin");
         requestInterface = new Retrofit.Builder()
                 .baseUrl(BASE_Service)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -88,6 +90,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         themgiohang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LoadingScreen.LoadingShow(ChiTietSanPhamActivity.this,"Đang thêm sản phẩm");
                 themsanpham(sanPhams_get);
             }
         });
@@ -111,11 +114,13 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         if(integer > 0)
         {
             Toast.makeText(this, "Thêm Thành Công", Toast.LENGTH_SHORT).show();
+            LoadingScreen.LoadingDismi();
         }
     }
 
     private void addnoOk(Throwable throwable) {
         Log.e("check_add", "addnoOk: " + throwable.getMessage() );
+        LoadingScreen.LoadingDismi();
     }
 
     public void setDataComment(ArrayList<Comment> ds)
@@ -136,6 +141,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
 
     private void getSanPhamNoOk(Throwable throwable) {
         Toast.makeText(this, "Lỗi get" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        LoadingScreen.LoadingDismi();
     }
 
     @SuppressLint("NewApi")
@@ -165,6 +171,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             }
             SlideShowSanPham(sanPhams.getHinhs());
         }
+        LoadingScreen.LoadingDismi();
     }
     private void SlideShowSanPham(ArrayList<Hinh> ds)
     {

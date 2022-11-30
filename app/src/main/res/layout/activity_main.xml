@@ -5,36 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@drawable/background_search"
-        app:boxStrokeColor="@android:color/transparent"
-        app:boxStrokeWidth="0dp"
-        android:enabled="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:startIconDrawable="@mipmap/search24"
-        app:startIconTint="@color/app_color_main">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/timkiem"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Tìm kiếm sản phẩm"
-            android:textSize="12sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/menu"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         app:menu="@menu/bottom_menu"

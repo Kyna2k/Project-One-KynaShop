@@ -7,11 +7,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="26dp"
         android:paddingStart="16dp"
         android:fontFamily="@font/poppinsbold"
         android:textColor="@color/app_title_text"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:padding="5dp"
         android:id="@+id/title"
         android:layout_width="match_parent"

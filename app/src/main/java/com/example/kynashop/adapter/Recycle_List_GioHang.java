@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.example.kynashop.Interfaces.Click_item_GioHang;
 import com.example.kynashop.R;
 import com.example.kynashop.model.ChiTietHoaDon;
 import com.example.kynashop.model.Convent_Money;
+import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.view.MainActivity;
 
 import java.util.ArrayList;
@@ -30,11 +32,12 @@ public class Recycle_List_GioHang extends RecyclerView.Adapter<Recycle_List_GioH
     private Context context;
     private ArrayList<ChiTietHoaDon> ds;
     private Click_item_GioHang click_item_gioHang;
-
-    public Recycle_List_GioHang(Context context, ArrayList<ChiTietHoaDon> ds, Click_item_GioHang click_item_gioHang)
+    private ArrayList<KhuyenMai> ds_khuyenMai;
+    public Recycle_List_GioHang(Context context, ArrayList<ChiTietHoaDon> ds, ArrayList<KhuyenMai> ds_khuyenMai,Click_item_GioHang click_item_gioHang)
     {
         this.context = context;
         this.ds = ds;
+        this.ds_khuyenMai = ds_khuyenMai;
         this.click_item_gioHang = click_item_gioHang;
     }
 
@@ -56,7 +59,30 @@ public class Recycle_List_GioHang extends RecyclerView.Adapter<Recycle_List_GioH
         {
             Glide.with(context).load(context.getResources().getIdentifier("laptop","mipmap",context.getPackageName())).into(holder.hinh_laptop);
         }
-        holder.gia.setText(Convent_Money.money(Double.valueOf(ds.get(position).getTriGia()) ));
+        holder.khuyenMai.setVisibility(View.GONE);
+        if(ds.get(position).getSanPham().getMaKhuyenMai() > 0)
+        {
+            for(KhuyenMai khuyenMai : ds_khuyenMai)
+            {
+                if(khuyenMai.getMaKhuyenMai() == ds.get(position).getSanPham().getMaKhuyenMai())
+                {
+                    holder.khuyenMai.setVisibility(View.VISIBLE);
+                    Double x = Double.valueOf(khuyenMai.getPhanTramKhuyenMai() + "") ;
+                    Double gia = ds.get(position).getTriGia()*(Double)((100-x)/100);
+                    holder.gia.setText(Convent_Money.money(gia));
+                    holder.gia_goc.setText(Convent_Money.money(Double.valueOf(ds.get(position).getTriGia()) ));
+                    holder.gia_goc.setPaintFlags(holder.gia_goc.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+                    break;
+                }
+
+            }
+        }else {
+                holder.gia.setText(Convent_Money.money(Double.valueOf(ds.get(position).getTriGia()) ));
+                holder.gia_goc.setText(Convent_Money.money(Double.valueOf(ds.get(position).getTriGia()) ));
+                holder.khuyenMai.setVisibility(View.GONE);
+
+        }
+
         holder.ten_sp.setText(ds.get(position).getSanPham().getTenSanPham());
         holder.soluong.setText(String.valueOf(ds.get(position).getSoLuong()));
         holder.btn_cong.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +123,7 @@ public class Recycle_List_GioHang extends RecyclerView.Adapter<Recycle_List_GioH
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView hinh_laptop,btn_xoa;
-        TextView ten_sp,gia;
+        TextView ten_sp,gia,gia_goc,khuyenMai;
         ImageView btn_tru,btn_cong;
         EditText soluong;
         CardView list_car;
@@ -112,6 +138,8 @@ public class Recycle_List_GioHang extends RecyclerView.Adapter<Recycle_List_GioH
             btn_xoa =itemView.findViewById(R.id.btn_xoa);
             click_item_gioHang.edit_soluong(soluong);
             list_car = itemView.findViewById(R.id.list_car);
+            gia_goc = itemView.findViewById(R.id.gia_goc);
+            khuyenMai = itemView.findViewById(R.id.khuyenMai);
         }
     }
 }

@@ -21,6 +21,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.kynashop.API.API_Services;
 import com.example.kynashop.Interfaces.Click_item_GioHang;
 import com.example.kynashop.R;
@@ -45,6 +47,7 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
     private Recycle_List_GioHang adapter_giohang;
     private API_Services requestInterface;
     private KhuyenMai khuyenMai2;
+    private ArrayList<KhuyenMai> ds_khuyenmaiAPi;
     private int MaHoaDon;
     public Fragment_GioHang()
     {
@@ -82,6 +85,7 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
         tong_gia_goc = view.findViewById(R.id.tong_gia_goc);
         tong_gia_ban = view.findViewById(R.id.tong_gia_ban);
         tong = view.findViewById(R.id.tong);
+        getKhuyenMai();
         getValue();
 
     }
@@ -89,6 +93,7 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
     @Override
     public void onResume() {
         super.onResume();
+        getKhuyenMai();
         getValue();
     }
 
@@ -100,13 +105,7 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
             getGioHang(makhachhang,0);
         }
     }
-    private void getData(ArrayList<ChiTietHoaDon> ds)
-    {
-        adapter_giohang = new Recycle_List_GioHang(getContext(),ds,this);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        list_giohang.setLayoutManager(linearLayoutManager);
-        list_giohang.setAdapter(adapter_giohang);
-    }
+
     private void getGioHang(int maKhachHang,int trangthai)
     {
         new CompositeDisposable().add(requestInterface.getGioHang(maKhachHang,trangthai)
@@ -128,7 +127,33 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
             setMoney(hoaDon.getChiTietHoaDons());
         }
     }
+    private void getData(ArrayList<ChiTietHoaDon> ds)
+    {
+        adapter_giohang = new Recycle_List_GioHang(getContext(),ds,ds_khuyenmaiAPi,this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        list_giohang.setLayoutManager(linearLayoutManager);
+        list_giohang.setAdapter(adapter_giohang);
+    }
+    public void getKhuyenMai()
+    {
+        new CompositeDisposable().add(requestInterface.getAllKhuyenMai()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::getKhuyenMaiOk, this::getKhuyenMaiNoOk)
+        );
+    }
 
+    private void getKhuyenMaiNoOk(Throwable throwable) {
+
+    }
+
+    private void getKhuyenMaiOk(ArrayList<KhuyenMai> khuyenMais) {
+        if(khuyenMais != null)
+        {
+            ds_khuyenmaiAPi = khuyenMais;
+        }
+
+    }
     @SuppressLint("NewApi")
     public void setMoney(ArrayList<ChiTietHoaDon> ds)
     {
@@ -233,6 +258,8 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
         });
 
     }
+
+
     public void update(ChiTietHoaDon chiTietHoaDon, boolean check)
     {
         int soluong = chiTietHoaDon.getSoLuong();

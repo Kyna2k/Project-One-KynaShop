@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kynashop.API.API_Services;
+import com.example.kynashop.LoadingSreen.LoadingScreen;
 import com.example.kynashop.R;
 import com.example.kynashop.model.KhachHang;
 import com.example.kynashop.model.LoginModel;
@@ -105,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
 //                }else {
 //                    Toast.makeText(LoginActivity.this, "Vui lòng nhập đúng định dạng số điện thoại", Toast.LENGTH_SHORT).show();
 //                }
+                LoadingScreen.LoadingShow(LoginActivity.this,"Đang đăng nhập");
                 LoginModel loginModel = new LoginModel(number_phone.getText().toString(),1);
                 login(loginModel);
 
@@ -182,6 +184,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleError(Throwable throwable) {
         Toast.makeText(this, "Lỗi đăng nhập", Toast.LENGTH_SHORT).show();
+        LoadingScreen.LoadingDismi();
     }
 
     private void handleResponse(KhachHang khachHang) {
@@ -194,7 +197,8 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
-
+        LoadingScreen.LoadingDismi();
+        finish();
     }
 
     @Override
