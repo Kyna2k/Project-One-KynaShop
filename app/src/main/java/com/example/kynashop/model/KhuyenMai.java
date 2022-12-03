@@ -1,9 +1,10 @@
 package com.example.kynashop.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class KhuyenMai {
+public class KhuyenMai implements Serializable {
     private int maKhuyenMai;
     private String ngayBatDau;
     private String ngayKetThuc;

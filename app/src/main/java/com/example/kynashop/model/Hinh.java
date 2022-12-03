@@ -1,6 +1,8 @@
 package com.example.kynashop.model;
 
-public class Hinh {
+import java.io.Serializable;
+
+public class Hinh implements Serializable {
     private int mahinh;
     private int maSanPham;
     private String url;

@@ -1,8 +1,9 @@
 package com.example.kynashop.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class HoaDon {
+public class HoaDon implements Serializable {
     private int maHoaDon;
     private int maNhanVien;
     private int maKhachHang;

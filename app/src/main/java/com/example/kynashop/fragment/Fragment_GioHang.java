@@ -2,6 +2,7 @@ package com.example.kynashop.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
@@ -32,6 +33,7 @@ import com.example.kynashop.model.Convent_Money;
 import com.example.kynashop.model.HoaDon;
 import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.XoaHoaDonGioHang;
+import com.example.kynashop.view.DonHangActivity;
 import com.example.kynashop.view.MainActivity;
 
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
     private KhuyenMai khuyenMai2;
     private ArrayList<KhuyenMai> ds_khuyenmaiAPi;
     private int MaHoaDon;
+    private HoaDon hoaDon_send;
     public Fragment_GioHang()
     {
 
@@ -84,16 +87,26 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
         tongsoluong = view.findViewById(R.id.tongsoluong);
         tong_gia_goc = view.findViewById(R.id.tong_gia_goc);
         tong_gia_ban = view.findViewById(R.id.tong_gia_ban);
+        btn_mua = view.findViewById(R.id.btn_mua);
         tong = view.findViewById(R.id.tong);
-        getKhuyenMai();
         getValue();
+        btn_mua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), DonHangActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("value",hoaDon_send);
+                bundle.putSerializable("type",2);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getKhuyenMai();
         getValue();
     }
 
@@ -123,37 +136,17 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
         if(hoaDon !=null)
         {
             MaHoaDon = hoaDon.getMaHoaDon();
-
+            hoaDon_send = hoaDon;
             getData(hoaDon.getChiTietHoaDons());
             setMoney(hoaDon.getChiTietHoaDons());
         }
     }
     private void getData(ArrayList<ChiTietHoaDon> ds)
     {
-        adapter_giohang = new Recycle_List_GioHang(getContext(),ds,ds_khuyenmaiAPi,this);
+        adapter_giohang = new Recycle_List_GioHang(getContext(),ds,this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         list_giohang.setLayoutManager(linearLayoutManager);
         list_giohang.setAdapter(adapter_giohang);
-    }
-    public void getKhuyenMai()
-    {
-        new CompositeDisposable().add(requestInterface.getAllKhuyenMai()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(this::getKhuyenMaiOk, this::getKhuyenMaiNoOk)
-        );
-    }
-
-    private void getKhuyenMaiNoOk(Throwable throwable) {
-
-    }
-
-    private void getKhuyenMaiOk(ArrayList<KhuyenMai> khuyenMais) {
-        if(khuyenMais != null)
-        {
-            ds_khuyenmaiAPi = khuyenMais;
-        }
-
     }
     @SuppressLint("NewApi")
     public void setMoney(ArrayList<ChiTietHoaDon> ds)

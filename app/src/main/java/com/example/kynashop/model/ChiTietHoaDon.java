@@ -1,6 +1,8 @@
 package com.example.kynashop.model;
 
-public class ChiTietHoaDon {
+import java.io.Serializable;
+
+public class ChiTietHoaDon implements Serializable {
     private int stt;
     private int maHoaDon;
     private int maSanPham;
@@ -8,6 +10,7 @@ public class ChiTietHoaDon {
     private Double triGia;
     private SanPhams sanPham;
 
+    public ChiTietHoaDon(){}
     public ChiTietHoaDon(int stt, int maHoaDon, int maSanPham, int soLuong, Double triGia, SanPhams sanPham) {
         this.stt = stt;
         this.maHoaDon = maHoaDon;

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,9 +26,11 @@ import com.example.kynashop.API.API_Services;
 import com.example.kynashop.LoadingSreen.LoadingScreen;
 import com.example.kynashop.R;
 import com.example.kynashop.adapter.Recycle_List_Comment;
+import com.example.kynashop.model.ChiTietHoaDon;
 import com.example.kynashop.model.Comment;
 import com.example.kynashop.model.Convent_Money;
 import com.example.kynashop.model.Hinh;
+import com.example.kynashop.model.HoaDon;
 import com.example.kynashop.model.KhachHangAddSanPhamVaoGioHang;
 import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.NhaSanXuat;
@@ -57,6 +60,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     private SanPhams sanPhams_get;
     private API_Services requestInterface;
     private Recycle_List_Comment apdater_comment;
+    private Double trigia;
     private ArrayList<SlideModel> hinhSan = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +100,27 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             public void onClick(View view) {
                 LoadingScreen.LoadingShow(ChiTietSanPhamActivity.this,"Đang thêm sản phẩm");
                 themsanpham(sanPhams_get);
+            }
+        });
+        muangay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HoaDon hoaDon = new HoaDon();
+                ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon();
+                chiTietHoaDon.setSanPham(sanPhams_get);
+                chiTietHoaDon.setSoLuong(1);
+                chiTietHoaDon.setTriGia(trigia);
+                chiTietHoaDon.setMaSanPham(sanPhams_get.getMaSanPham());
+                ArrayList<ChiTietHoaDon> ds_chi = new ArrayList<>();
+                ds_chi.add(chiTietHoaDon);
+                hoaDon.setChiTietHoaDons(ds_chi);
+                Intent intent = new Intent(ChiTietSanPhamActivity.this,DonHangActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("value",hoaDon);
+                bundle.putInt("type",1);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
             }
         });
     }
@@ -241,9 +266,11 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             gia_goc.setPaintFlags(gia_ban.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
             giamgia.setVisibility(View.VISIBLE);
             giamgia.setText(String.valueOf(khuyenMai.getPhanTramKhuyenMai())+"%");
+            trigia = gia;
         }else {
             gia_ban.setText(Convent_Money.money(Double.valueOf(sanPhams_get.getGiaGoc())));
             gia_goc.setText(Convent_Money.money(Double.valueOf(sanPhams_get.getGiaGoc())));
+            trigia = Double.valueOf(sanPhams_get.getGiaGoc());
         }
     }
 }

@@ -6,6 +6,7 @@ import com.example.kynashop.model.KhachHang;
 import com.example.kynashop.model.KhachHangAddSanPhamVaoGioHang;
 import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.LoginModel;
+import com.example.kynashop.model.MuaSanPham;
 import com.example.kynashop.model.NhaSanXuat;
 import com.example.kynashop.model.SanPhamTop10;
 import com.example.kynashop.model.SanPhams;
@@ -71,4 +72,10 @@ public interface API_Services {
 
     @GET("getAllHoaDon")
     Observable<ArrayList<HoaDon>> getAllHoaDon(@Query("maKhachHang") int maKhachHang,  @Query("trangthai") int trangthai);
+
+    @POST("updateTrangThaiMuaHang")
+    Observable<Integer> updateTrangThaiMuaHang(@Body HoaDon hoaDon);
+
+    @POST("MuaSanPham")
+    Observable<Integer> MuaSanPham(@Body MuaSanPham muaSanPham);
 }

@@ -1,6 +1,8 @@
 package com.example.kynashop.model;
 
-public class Comment {
+import java.io.Serializable;
+
+public class Comment implements Serializable {
     private String noiDung;
     private int rate;
     private String ngay;

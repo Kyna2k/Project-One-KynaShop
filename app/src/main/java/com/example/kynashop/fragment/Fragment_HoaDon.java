@@ -91,7 +91,7 @@ public class Fragment_HoaDon extends Fragment {
     }
     public void getHoaDon(int maKhachHang_ne,int trangthai)
     {
-        new CompositeDisposable().add(requestInterface.getAllHoaDon(maKhachHang,trangthai)
+        new CompositeDisposable().add(requestInterface.getAllHoaDon(maKhachHang_ne,trangthai)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::getHoaDon, this::getHoaDonNo)
