@@ -34,7 +34,11 @@ import com.example.kynashop.model.NhaSanXuat;
 import com.example.kynashop.model.SanPhams;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -114,6 +118,10 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         if(integer > 0)
         {
             Toast.makeText(this, "Thêm Thành Công", Toast.LENGTH_SHORT).show();
+            LoadingScreen.LoadingDismi();
+        }else if(integer == -200)
+        {
+            Toast.makeText(this, "Số lượng sản phẩm không đủ", Toast.LENGTH_SHORT).show();
             LoadingScreen.LoadingDismi();
         }
     }
@@ -223,8 +231,9 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
 
     @SuppressLint("NewApi")
     private void getKhuyenMaiOk(KhuyenMai khuyenMai) {
-        if(khuyenMai != null)
+        if(khuyenMai != null && khuyenMai.getMaKhuyenMai() > 0)
         {
+
             Double x = Double.valueOf(khuyenMai.getPhanTramKhuyenMai() + "") ;
             Double gia = sanPhams_get.getGiaGoc()*(Double)((100-x)/100);
             gia_ban.setText(Convent_Money.money(gia));

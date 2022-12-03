@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class SanPhams {
     private int maSanPham;
     private String tenSanPham;
-    private Long giaGoc;
-    private Long giaBan;
+    private Double giaGoc;
+    private Double giaBan;
     private int soLuongTrongKho;
     private int maNhaSanXuat;
     private String mota;
@@ -18,7 +18,7 @@ public class SanPhams {
     public SanPhams() {
     }
 
-    public SanPhams(int maSanPham, String tenSanPham, Long giaGoc, Long giaBan, int soLuongTrongKho, int maNhaSanXuat, String mota, int trangThai, int maKhuyenMai, String thongSo, ArrayList<Comment> commentApis, ArrayList<Hinh> hinhs) {
+    public SanPhams(int maSanPham, String tenSanPham, Double giaGoc, Double giaBan, int soLuongTrongKho, int maNhaSanXuat, String mota, int trangThai, int maKhuyenMai, String thongSo, ArrayList<Comment> commentApis, ArrayList<Hinh> hinhs) {
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
         this.giaGoc = giaGoc;
@@ -49,19 +49,19 @@ public class SanPhams {
         this.tenSanPham = tenSanPham;
     }
 
-    public Long getGiaGoc() {
+    public Double getGiaGoc() {
         return giaGoc;
     }
 
-    public void setGiaGoc(Long giaGoc) {
+    public void setGiaGoc(Double giaGoc) {
         this.giaGoc = giaGoc;
     }
 
-    public Long getGiaBan() {
+    public Double getGiaBan() {
         return giaBan;
     }
 
-    public void setGiaBan(Long giaBan) {
+    public void setGiaBan(Double giaBan) {
         this.giaBan = giaBan;
     }
 

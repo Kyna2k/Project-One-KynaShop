@@ -24,6 +24,7 @@ import com.example.kynashop.R;
 import com.example.kynashop.model.ChiTietHoaDon;
 import com.example.kynashop.model.Convent_Money;
 import com.example.kynashop.model.KhuyenMai;
+import com.example.kynashop.model.SanPhams;
 import com.example.kynashop.view.MainActivity;
 
 import java.util.ArrayList;
@@ -60,28 +61,19 @@ public class Recycle_List_GioHang extends RecyclerView.Adapter<Recycle_List_GioH
             Glide.with(context).load(context.getResources().getIdentifier("laptop","mipmap",context.getPackageName())).into(holder.hinh_laptop);
         }
         holder.khuyenMai.setVisibility(View.GONE);
-        if(ds.get(position).getSanPham().getMaKhuyenMai() > 0)
+        SanPhams sanPhams = ds.get(position).getSanPham();
+        if(ds.get(position).getTriGia() < sanPhams.getGiaGoc())
         {
-            for(KhuyenMai khuyenMai : ds_khuyenMai)
-            {
-                if(khuyenMai.getMaKhuyenMai() == ds.get(position).getSanPham().getMaKhuyenMai())
-                {
-                    holder.khuyenMai.setVisibility(View.VISIBLE);
-                    Double x = Double.valueOf(khuyenMai.getPhanTramKhuyenMai() + "") ;
-                    Double gia = ds.get(position).getTriGia()*(Double)((100-x)/100);
-                    holder.gia.setText(Convent_Money.money(gia));
-                    holder.gia_goc.setText(Convent_Money.money(Double.valueOf(ds.get(position).getTriGia()) ));
-                    holder.gia_goc.setPaintFlags(holder.gia_goc.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-                    break;
-                }
-
-            }
+            holder.gia.setText(Convent_Money.money(ds.get(position).getTriGia()));
+            holder.gia_goc.setText(Convent_Money.money(sanPhams.getGiaGoc()));
+            holder.gia_goc.setPaintFlags(holder.gia_goc.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.khuyenMai.setVisibility(View.VISIBLE);
         }else {
-                holder.gia.setText(Convent_Money.money(Double.valueOf(ds.get(position).getTriGia()) ));
-                holder.gia_goc.setText(Convent_Money.money(Double.valueOf(ds.get(position).getTriGia()) ));
-                holder.khuyenMai.setVisibility(View.GONE);
-
+            holder.gia.setText(Convent_Money.money(ds.get(position).getTriGia()));
+            holder.gia_goc.setText(Convent_Money.money(sanPhams.getGiaGoc()));
+            holder.khuyenMai.setVisibility(View.GONE);
         }
+
 
         holder.ten_sp.setText(ds.get(position).getSanPham().getTenSanPham());
         holder.soluong.setText(String.valueOf(ds.get(position).getSoLuong()));

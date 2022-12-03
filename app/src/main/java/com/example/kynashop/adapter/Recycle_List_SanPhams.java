@@ -93,6 +93,9 @@ public class Recycle_List_SanPhams extends RecyclerView.Adapter<Recycle_List_San
                     holder.giamgia.setVisibility(View.VISIBLE);
                     holder.giamgia.setText("-"+String.valueOf(khuyenMai.getPhanTramKhuyenMai())+"%");
                     break;
+                }else {
+                    holder.gia.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));
+                    holder.giamgia.setVisibility(View.GONE);
                 }
             }
         }else {

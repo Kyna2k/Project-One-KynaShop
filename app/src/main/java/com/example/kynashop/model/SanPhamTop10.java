@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class SanPhamTop10 {
     private int maSanPham;
     private String tenSanPham;
-    private Long giaGoc;
-    private Long giaBan;
+    private Double giaGoc;
+    private Double giaBan;
     private Integer soLuongTrongKho;
     private String tenNhaSanXuat;
     private String moTa;
@@ -15,7 +15,7 @@ public class SanPhamTop10 {
     private Integer tong;
     private ArrayList<Hinh> hinhs;
 
-    public SanPhamTop10(int maSanPham, String tenSanPham, Long giaGoc, Long giaBan, Integer soLuongTrongKho, String tenNhaSanXuat, String moTa, Integer trangThai, Integer maKhuyenMai, Integer tong, ArrayList<Hinh> hinhs) {
+    public SanPhamTop10(int maSanPham, String tenSanPham, Double giaGoc, Double giaBan, Integer soLuongTrongKho, String tenNhaSanXuat, String moTa, Integer trangThai, Integer maKhuyenMai, Integer tong, ArrayList<Hinh> hinhs) {
         this.maSanPham = maSanPham;
         this.tenSanPham = tenSanPham;
         this.giaGoc = giaGoc;
@@ -45,19 +45,19 @@ public class SanPhamTop10 {
         this.tenSanPham = tenSanPham;
     }
 
-    public Long getGiaGoc() {
+    public Double getGiaGoc() {
         return giaGoc;
     }
 
-    public void setGiaGoc(Long giaGoc) {
+    public void setGiaGoc(Double giaGoc) {
         this.giaGoc = giaGoc;
     }
 
-    public Long getGiaBan() {
+    public Double getGiaBan() {
         return giaBan;
     }
 
-    public void setGiaBan(Long giaBan) {
+    public void setGiaBan(Double giaBan) {
         this.giaBan = giaBan;
     }
 

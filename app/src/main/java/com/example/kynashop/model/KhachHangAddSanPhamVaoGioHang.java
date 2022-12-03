@@ -4,9 +4,9 @@ public class KhachHangAddSanPhamVaoGioHang {
     private int MaKhachHang;
     private int MaSanPham;
     private int SoLuong;
-    private Long TriGia;
+    private Double TriGia;
 
-    public KhachHangAddSanPhamVaoGioHang(int maKhachHang, int maSanPham, int soLuong, Long triGia) {
+    public KhachHangAddSanPhamVaoGioHang(int maKhachHang, int maSanPham, int soLuong, Double triGia) {
         MaKhachHang = maKhachHang;
         MaSanPham = maSanPham;
         SoLuong = soLuong;
@@ -37,11 +37,11 @@ public class KhachHangAddSanPhamVaoGioHang {
         SoLuong = soLuong;
     }
 
-    public Long getTriGia() {
+    public Double getTriGia() {
         return TriGia;
     }
 
-    public void setTriGia(Long triGia) {
+    public void setTriGia(Double triGia) {
         TriGia = triGia;
     }
 }

@@ -20,7 +20,7 @@
         android:theme="@style/Theme.KynaShop"
         tools:targetApi="31">
         <activity
-            android:name=".CapNhatThongTinActivity"
+            android:name=".view.CapNhatThongTinActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

@@ -1,6 +1,7 @@
 package com.example.kynashop.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class KhuyenMai {
     private int maKhuyenMai;

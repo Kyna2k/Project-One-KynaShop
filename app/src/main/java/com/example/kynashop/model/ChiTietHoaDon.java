@@ -5,10 +5,10 @@ public class ChiTietHoaDon {
     private int maHoaDon;
     private int maSanPham;
     private int soLuong;
-    private Long triGia;
+    private Double triGia;
     private SanPhams sanPham;
 
-    public ChiTietHoaDon(int stt, int maHoaDon, int maSanPham, int soLuong, Long triGia, SanPhams sanPham) {
+    public ChiTietHoaDon(int stt, int maHoaDon, int maSanPham, int soLuong, Double triGia, SanPhams sanPham) {
         this.stt = stt;
         this.maHoaDon = maHoaDon;
         this.maSanPham = maSanPham;
@@ -49,11 +49,11 @@ public class ChiTietHoaDon {
         this.soLuong = soLuong;
     }
 
-    public Long getTriGia() {
+    public Double getTriGia() {
         return triGia;
     }
 
-    public void setTriGia(Long triGia) {
+    public void setTriGia(Double triGia) {
         this.triGia = triGia;
     }
 

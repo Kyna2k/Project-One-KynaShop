@@ -21,6 +21,7 @@ import com.example.kynashop.API.API_Services;
 import com.example.kynashop.R;
 import com.example.kynashop.model.KhachHang;
 import com.example.kynashop.model.LoginModel;
+import com.example.kynashop.view.CapNhatThongTinActivity;
 import com.example.kynashop.view.LoginActivity;
 import com.example.kynashop.view.MainActivity;
 
@@ -32,6 +33,7 @@ public class Fragment_ThongTInCaNhan extends Fragment {
     private ImageView avatar_user;
     private TextView tenuser;
     private CardView doiavatar,capnhatthongtin,dangxuat;
+    private KhachHang khachHang_send;
     private API_Services requestInterface;
     public Fragment_ThongTInCaNhan()
     {
@@ -69,6 +71,16 @@ public class Fragment_ThongTInCaNhan extends Fragment {
         doiavatar = view.findViewById(R.id.doiavatar);
         capnhatthongtin = view.findViewById(R.id.capnhatthongtin);
         dangxuat = view.findViewById(R.id.dangxuat);
+        capnhatthongtin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CapNhatThongTinActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("KH",khachHang_send);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         setValue();
     }
 
@@ -102,6 +114,6 @@ public class Fragment_ThongTInCaNhan extends Fragment {
     private void handleResponse(KhachHang khachHang) {
         Glide.with(this).load(khachHang.getAvatar()).circleCrop().into(avatar_user);
         tenuser.setText(khachHang.getTenKhachHang());
-
+        khachHang_send = khachHang;
     }
 }

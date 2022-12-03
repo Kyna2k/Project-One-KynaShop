@@ -74,6 +74,10 @@ public class Recycle_Grid_SanPham extends RecyclerView.Adapter<Recycle_Grid_SanP
                         holder.khuyenMai.setVisibility(View.VISIBLE);
                         holder.khuyenMai.setText(String.valueOf(khuyenMai.getPhanTramKhuyenMai())+"%");
                         break;
+                    }else {
+                        holder.gia_ban.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));
+                        holder.gia_goc.setText(Convent_Money.money(Double.valueOf(ds.get(position).getGiaGoc())));
+                        holder.khuyenMai.setVisibility(View.GONE);
                     }
                 }
             }catch (Exception e)

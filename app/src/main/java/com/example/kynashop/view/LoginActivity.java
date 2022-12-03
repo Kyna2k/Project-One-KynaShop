@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +75,9 @@ public class LoginActivity extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private CallbackManager callbackManager;
     private API_Services requestInterface;
+    private KhachHang khachHang_getFromFB_GG;
+    private String name,email,image;
+    private int type = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 //                }
                 LoadingScreen.LoadingShow(LoginActivity.this,"Đang đăng nhập");
                 LoginModel loginModel = new LoginModel(number_phone.getText().toString(),1);
+                type = 1;
                 login(loginModel);
 
             }
@@ -184,10 +189,18 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleError(Throwable throwable) {
         Toast.makeText(this, "Lỗi đăng nhập", Toast.LENGTH_SHORT).show();
+        Log.e("loilogin", "handleError: " + throwable.getMessage() );
         LoadingScreen.LoadingDismi();
     }
 
     private void handleResponse(KhachHang khachHang) {
+        khachHang_getFromFB_GG = khachHang;
+        if(type != 1)
+        {
+            khachHang_getFromFB_GG.setTenKhachHang(name);
+            khachHang_getFromFB_GG.setAvatar(image);
+            CapNhat(khachHang_getFromFB_GG);
+        }
         SharedPreferences sharedPreferences = getSharedPreferences("KhachHach",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("makhachhang",khachHang.getMaKhachHang());
@@ -207,13 +220,19 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode,resultCode,data);
     }
     private void getUserProfile(AccessToken accessToken) {
+        LoadingScreen.LoadingShow(LoginActivity.this,"Đang đăng nhập");
         GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
-                    String name = object.getString("name");
-                    String email = object.getString("id");
-                    String image = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                    name = object.getString("name");
+                    email = object.getString("id");
+                    image = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                    type = 3;
+                    LoginModel loginModel = new LoginModel(email,3);
+                    login(loginModel);
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -225,15 +244,34 @@ public class LoginActivity extends AppCompatActivity {
         request.setParameters(parameters);
         request.executeAsync();
     }
+    public void CapNhat(KhachHang khachHangne)
+    {
+        new CompositeDisposable().add(requestInterface.updateKhachHang(khachHangne)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::capnhat, this::loicapnhat)
+        );
+    }
 
+    private void loicapnhat(Throwable throwable) {
+        Log.e("loicapnhatkhachhang", "handleError: " + throwable.getMessage() );
+    }
 
-        private void dialog_OTP()
+    private void capnhat(Integer integer) {
+        if(integer > 0)
+        {
+            Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void dialog_OTP()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.diaglog_otp,null);
         otp = view.findViewById(R.id.otp);
         Button btn_xacthuc = view.findViewById(R.id.btn_xacthuc);
         TextView phone_number = view.findViewById(R.id.phone_number);
+        ImageView cancel = view.findViewById(R.id.cancel);
         phone_number.setText("+84 " + number_phone.getText().toString());
         builder.setView(view);
         alertDialog = builder.create();
@@ -246,6 +284,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 getOTP(otp.getText().toString());
 
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
             }
         });
     }

@@ -15,4 +15,9 @@ public class Convent_Money {
         String tien = nf.format(money);
         return tien.replace("$","").substring(0,tien.indexOf(".")-1)+ "\u20AB";
     }
+    public static String ngay(String value)
+    {
+        String[] test = value.split("T");
+        return test[0];
+    }
 }

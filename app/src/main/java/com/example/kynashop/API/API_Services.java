@@ -62,4 +62,13 @@ public interface API_Services {
 
     @GET("getKhachHang")
     Observable<KhachHang> getKhachHang(@Query("maKhachHang") int maKhachHang);
+
+    @POST("updateKhachHang")
+    Observable<Integer> updateKhachHang(@Body KhachHang khachHang);
+
+    @GET("GetAllKhachHang")
+    Observable<ArrayList<KhachHang>> GetAllKhachHang();
+
+    @GET("getAllHoaDon")
+    Observable<ArrayList<HoaDon>> getAllHoaDon(@Query("maKhachHang") int maKhachHang,  @Query("trangthai") int trangthai);
 }

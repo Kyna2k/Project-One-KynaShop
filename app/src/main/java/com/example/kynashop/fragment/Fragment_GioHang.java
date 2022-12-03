@@ -99,6 +99,7 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
 
     private void getValue()
     {
+
         int makhachhang = getContext().getSharedPreferences("KhachHach", Context.MODE_PRIVATE).getInt("makhachhang",-1);
         if(makhachhang != -1)
         {
@@ -164,43 +165,14 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
         for(ChiTietHoaDon chiTietHoaDon : ds)
         {
             soluong_sanpham +=chiTietHoaDon.getSoLuong();
-            tonggia_goc += chiTietHoaDon.getTriGia()*chiTietHoaDon.getSoLuong();
-            if(chiTietHoaDon.getSanPham().getMaKhuyenMai() != 0)
-            {
-                KhuyeMai(chiTietHoaDon.getSanPham().getMaKhuyenMai());
-                Double x = Double.valueOf(khuyenMai2.getPhanTramKhuyenMai() + "") ;
-                Double gia = chiTietHoaDon.getTriGia()*(Double)((100-x)/100);
-                tonggia_ban += gia*chiTietHoaDon.getSoLuong();
-            }else {
-                tonggia_ban = tonggia_goc;
-            }
+            tonggia_goc += chiTietHoaDon.getSanPham().getGiaGoc()*chiTietHoaDon.getSoLuong();
+            tonggia_ban += chiTietHoaDon.getTriGia()*chiTietHoaDon.getSoLuong();
         }
         tongcong = tonggia_ban;
         tongsoluong.setText("Sản phẩm " + "(" + soluong_sanpham +  ")");
         tong_gia_goc.setText(Convent_Money.money(Double.valueOf(tonggia_goc)));
         tong_gia_ban.setText(Convent_Money.money(Double.valueOf(tonggia_ban)));
         tong.setText(Convent_Money.money(Double.valueOf(tongcong)));
-    }
-    public void KhuyeMai(int Makhuyenmai)
-    {
-        new CompositeDisposable().add(requestInterface.getKhuyenMai(Makhuyenmai)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(this::getKhuyenMaiOk, this::getKhuyenMainoOk)
-        );
-    }
-    @SuppressLint("NewApi")
-    private void getKhuyenMainoOk(Throwable throwable) {
-        Log.e("khuyenmai", "getKhuyenMainoOk: " + throwable.getMessage() );
-
-    }
-
-    @SuppressLint("NewApi")
-    private void getKhuyenMaiOk(KhuyenMai khuyenMai) {
-        if(khuyenMai != null)
-        {
-            khuyenMai2 = khuyenMai;
-        }
     }
     public void XoaSanPham(int MaSanPham)
     {
@@ -282,7 +254,13 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
     }
 
     private void update_ok(Integer integer) {
-        Toast.makeText(getContext(), "Thanh cong", Toast.LENGTH_SHORT).show();
-        getValue();
+        if(integer > 0)
+        {
+            Toast.makeText(getContext(), "Thanh cong", Toast.LENGTH_SHORT).show();
+            getValue();
+        }else if(integer == -200) {
+            Toast.makeText(getContext(), "Số lượng sản phẩm trong kho không đủ", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
