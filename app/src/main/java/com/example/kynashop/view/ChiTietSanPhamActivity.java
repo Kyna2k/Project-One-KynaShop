@@ -190,6 +190,8 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             }else {
                 gia_ban.setText(Convent_Money.money(Double.valueOf(sanPhams_get.getGiaGoc())));
                 gia_goc.setText(Convent_Money.money(Double.valueOf(sanPhams_get.getGiaGoc())));
+                trigia = Double.valueOf(sanPhams_get.getGiaGoc());
+
             }
             getMaNhaSan(sanPhams.getMaNhaSanXuat());
             if(thongso !=null){

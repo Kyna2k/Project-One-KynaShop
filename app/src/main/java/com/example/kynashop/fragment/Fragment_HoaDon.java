@@ -87,7 +87,6 @@ public class Fragment_HoaDon extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         list_hoadon.setLayoutManager(linearLayoutManager);
         list_hoadon.setAdapter(adapter);
-        LoadingScreen.LoadingDismi();
     }
     public void getHoaDon(int maKhachHang_ne,int trangthai)
     {
@@ -102,6 +101,8 @@ public class Fragment_HoaDon extends Fragment {
         if(hoaDons != null)
         {
             setData(hoaDons);
+            LoadingScreen.LoadingDismi();
+
         }
         else {
             LoadingScreen.LoadingDismi();
