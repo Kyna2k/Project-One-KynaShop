@@ -73,5 +73,5 @@ dependencies {
     //Mấy cái nút
 
     //API MOMO
-    implementation 'com.github.momo-wallet:mobile-sdk:1.0.7'
+
 }
