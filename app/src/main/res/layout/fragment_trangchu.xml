@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:padding="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -37,16 +38,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.denzcoskun.imageslider.ImageSlider
-            android:layout_marginTop="20dp"
             android:id="@+id/Slide_khuyenMai"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginTop="20dp"
             app:iss_auto_cycle="true"
             app:iss_corner_radius="16"
             app:iss_delay="0"
             app:iss_period="1000"
             app:iss_placeholder="@mipmap/loading"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+            tools:layout_editor_absoluteX="0dp" />
 
         <TextView
             android:paddingTop="5dp"

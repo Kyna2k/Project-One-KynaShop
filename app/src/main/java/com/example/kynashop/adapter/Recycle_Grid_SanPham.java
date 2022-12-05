@@ -98,7 +98,7 @@ public class Recycle_Grid_SanPham extends RecyclerView.Adapter<Recycle_Grid_SanP
                 build.putInt("MASANPHAM",ds.get(holder.getAdapterPosition()).getMaSanPham());
                 intent.putExtras(build);
                 intent.setAction("CHITIETSANPHAM");
-                ((MainActivity)context).sendBroadcast(intent);
+                context.sendBroadcast(intent);
             }
         });
     }

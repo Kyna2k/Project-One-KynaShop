@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.kynashop.Interfaces.click_nhaphathanh;
 import com.example.kynashop.R;
 import com.example.kynashop.model.NhaSanXuat;
 
@@ -22,11 +23,12 @@ import java.util.ArrayList;
 public class Recycle_NhaSanXuat extends RecyclerView.Adapter<Recycle_NhaSanXuat.ViewHolder> {
     private Context context;
     private ArrayList<NhaSanXuat> ds;
-
-    public Recycle_NhaSanXuat(Context context, ArrayList<NhaSanXuat> ds)
+    private click_nhaphathanh click;
+    public Recycle_NhaSanXuat(Context context, ArrayList<NhaSanXuat> ds, click_nhaphathanh click)
     {
         this.context = context;
         this.ds = ds;
+        this.click = click;
     }
     @NonNull
     @Override
@@ -42,7 +44,7 @@ public class Recycle_NhaSanXuat extends RecyclerView.Adapter<Recycle_NhaSanXuat.
         holder.click_nsx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                click.click(ds.get(holder.getAdapterPosition()));
             }
         });
     }

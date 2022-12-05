@@ -69,15 +69,21 @@ public class Fragment_HoaDon extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        try{
+            LoadingScreen.LoadingDismi();
+        }catch (Exception e)
+        {
+
+        }
         getValue();
     }
 
     public void getValue()
     {
-        LoadingScreen.LoadingShow(getContext(),"Đang tải dữ liệu");
         maKhachHang = getContext().getSharedPreferences("KhachHach", Context.MODE_PRIVATE).getInt("makhachhang",-1);
         if(maKhachHang != -1)
         {
+            LoadingScreen.LoadingShow(getContext(),"Đang tải dữ liệu");
             getHoaDon(maKhachHang,0);
         }
     }

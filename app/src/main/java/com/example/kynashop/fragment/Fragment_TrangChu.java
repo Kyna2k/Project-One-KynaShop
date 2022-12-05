@@ -1,6 +1,8 @@
 package com.example.kynashop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +18,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.kynashop.API.API_Services;
+import com.example.kynashop.Interfaces.click_nhaphathanh;
 import com.example.kynashop.LoadingSreen.LoadingScreen;
 import com.example.kynashop.R;
 import com.example.kynashop.adapter.Recycle_Grid_SanPham;
@@ -26,6 +30,7 @@ import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.NhaSanXuat;
 import com.example.kynashop.model.SanPhams;
 import com.example.kynashop.view.MainActivity;
+import com.example.kynashop.view.SanPhamTheoGiDoActivity;
 
 import java.util.ArrayList;
 
@@ -33,7 +38,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class Fragment_TrangChu extends Fragment {
+public class Fragment_TrangChu extends Fragment implements click_nhaphathanh {
     private RecyclerView list_nsx,list_sanpham;
     private Recycle_NhaSanXuat adapter_nsx;
     private API_Services requestInterface;
@@ -113,7 +118,7 @@ public class Fragment_TrangChu extends Fragment {
     }
     private void getDataNSX(ArrayList<NhaSanXuat> ds)
     {
-        adapter_nsx = new Recycle_NhaSanXuat(getContext(),ds);
+        adapter_nsx = new Recycle_NhaSanXuat(getContext(),ds,this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),1);
         gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         list_nsx.setLayoutManager(gridLayoutManager);
@@ -161,8 +166,26 @@ public class Fragment_TrangChu extends Fragment {
                 ds_khuyenmai.add(new SlideModel(Kh.getHinh(), ScaleTypes.FIT));
             }
             Slide_khuyenMai.setImageList(ds_khuyenmai);
+            Slide_khuyenMai.setItemClickListener(i -> {
+                Intent intent = new Intent(getContext(), SanPhamTheoGiDoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("MA",ds_khuyenmaiAPi.get(i).getMaKhuyenMai());
+                bundle.putInt("loai",1);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                Log.i("click", "getKhuyenMaiOk: ");
+            });
         }
 
     }
 
+    @Override
+    public void click(NhaSanXuat nhaSanXuat) {
+        Intent intent = new Intent(getContext(),SanPhamTheoGiDoActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("nhasanxuat",nhaSanXuat);
+        bundle.putInt("loai",2);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 }

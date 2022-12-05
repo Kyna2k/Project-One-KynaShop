@@ -15,6 +15,8 @@ import com.example.kynashop.model.XoaHoaDonGioHang;
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -78,4 +80,14 @@ public interface API_Services {
 
     @POST("MuaSanPham")
     Observable<Integer> MuaSanPham(@Body MuaSanPham muaSanPham);
+
+    @GET("getSanPhamTheoNhaSanXuat")
+    Observable<ArrayList<SanPhams>> getSanPhamTheoNhaSanXuat(@Query("MaNhaSanXuat") int MaNhaSanXuat);
+
+    @GET("getSanPhamKhuyenMai")
+    Observable<ArrayList<SanPhams>> getSanPhamKhuyenMai(@Query("MaKhuyenMai") int MaKhuyenMai);
+
+    @Multipart
+    @POST("UpdateAvartar")
+    Observable<Integer> UpdateAvartar(@Part("id")RequestBody id, @Part MultipartBody.Part file);
 }

@@ -11,9 +11,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kynashop.R;
+import com.example.kynashop.model.ChiTietHoaDon;
 import com.example.kynashop.model.Convent_Money;
 import com.example.kynashop.model.HoaDon;
 
@@ -43,11 +45,10 @@ public class Recycle_List_HoaDon extends RecyclerView.Adapter<Recycle_List_HoaDo
         String value_nv = (ds.get(position).getMaNhanVien() > 0)? String.valueOf(ds.get(position).getMaNhanVien()) : "";
         String value_ngay = (ds.get(position).getNgayXuatHoaDon() == null)? "" : Convent_Money.ngay(ds.get(position).getNgayXuatHoaDon());
         holder.maNhaVien.setText("Mã nhân viên: "+value_nv);
-        holder.makhachhang.setText("Mã khách hàng: "+ ds.get(position).getMaKhachHang());
         holder.ngayxuathoadon.setText(value_ngay);
         switch (ds.get(position).getTrangThai())
         {
-            case -1:
+            case 255:
                 holder.trangthai.setText("Đã Hủy");
                 holder.trangthai.setTextColor(Color.parseColor("#44494D"));
                 holder.trangthai.setBackgroundResource(R.drawable.layvogiau);
@@ -70,6 +71,17 @@ public class Recycle_List_HoaDon extends RecyclerView.Adapter<Recycle_List_HoaDo
                 holder.trangthai.setTextColor(Color.parseColor("#11998e"));
                 break;
         }
+        Double x = 0.0;
+        for(ChiTietHoaDon chiTietHoaDon : ds.get(position).getChiTietHoaDons())
+        {
+            x += chiTietHoaDon.getTriGia()*chiTietHoaDon.getSoLuong();
+        }
+        holder.tong_cong.setText("Tổng cộng: "+Convent_Money.money(x));
+        Recycle_List_DonHang adapter = new Recycle_List_DonHang(context,ds.get(position).getChiTietHoaDons());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        holder.list_sanpham.setLayoutManager(linearLayoutManager);
+        holder.list_sanpham.setNestedScrollingEnabled(false);
+        holder.list_sanpham.setAdapter(adapter);
     }
 
     @Override
@@ -78,16 +90,18 @@ public class Recycle_List_HoaDon extends RecyclerView.Adapter<Recycle_List_HoaDo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView mahoadon,maNhaVien,makhachhang,trangthai,ngayxuathoadon;
+        private TextView mahoadon,maNhaVien,trangthai,ngayxuathoadon,tong_cong;
         private CardView item;
+        RecyclerView list_sanpham;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mahoadon = itemView.findViewById(R.id.mahoadon);
             maNhaVien = itemView.findViewById(R.id.maNhaVien);
-            makhachhang = itemView.findViewById(R.id.makhachhang);
             trangthai = itemView.findViewById(R.id.trangthai);
             ngayxuathoadon = itemView.findViewById(R.id.ngayxuathoadon);
             item = itemView.findViewById(R.id.item);
+            list_sanpham = itemView.findViewById(R.id.list_sanpham);
+            tong_cong = itemView.findViewById(R.id.tong_cong);
         }
     }
 }

@@ -89,7 +89,6 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
         tong_gia_ban = view.findViewById(R.id.tong_gia_ban);
         btn_mua = view.findViewById(R.id.btn_mua);
         tong = view.findViewById(R.id.tong);
-        getValue();
         btn_mua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,6 +129,7 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
     }
 
     private void getGioHangNoOk(Throwable throwable) {
+
     }
 
     private void getGioHangOk(HoaDon hoaDon) {
