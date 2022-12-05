@@ -2,6 +2,7 @@ package com.example.kynashop.view;
 
 import static com.example.kynashop.API.API_Services.BASE_Service;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -45,7 +47,7 @@ import vn.zalopay.sdk.ZaloPaySDK;
 import vn.zalopay.sdk.listeners.PayOrderListener;
 
 
-public abstract class DonHangActivity extends AppCompatActivity {
+public class DonHangActivity extends AppCompatActivity {
     private RecyclerView list_giohang;
     private TextView tongsoluong, tong_gia_goc, tong_gia_ban, tong;
     private Button btn_mua;
@@ -64,11 +66,10 @@ public abstract class DonHangActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_don_hang);
-//        StrictMode.ThreadPolicy policy = new
-//                StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-//
-//        ZaloPaySDK.init(AppInfo.APP_ID, Environment.SANDBOX);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        ZaloPaySDK.init(AppInfo.APP_ID, Environment.SANDBOX);
 
         requestInterface = new Retrofit.Builder()
                 .baseUrl(BASE_Service)
@@ -96,51 +97,54 @@ public abstract class DonHangActivity extends AppCompatActivity {
         setData(list_chitiethoadon);
 
         btn_mua.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
-                //                switch (type)
-//                {
-//                    case 1:
-//                        MuaSanPham muaSanPham = new MuaSanPham(MaKhachHang,hoaDon.getChiTietHoaDons().get(0).getMaSanPham(),1,1,hoaDon.getChiTietHoaDons().get(0).getTriGia(),Convent_Money.date());
-//                        muahangnhanh(muaSanPham);
-//                        break;
-//                    case 2:
-//                        hoaDon.setTrangThai(1);
-//                        hoaDon.setNgayXuatHoaDon(Convent_Money.date());
-//                        muatheogio(hoaDon);
-//                        break;
-//                }
-//                CreateOrder orderApi = new CreateOrder();
-//                try {
-//                    JSONObject data = orderApi.createOrder("2000");
-//                    String code = data.getString("returncode");
-//
-//                    if (code.equals("1")) {
-//
-//                        String token = data.getString("zptranstoken");
-//
-//                        ZaloPaySDK.getInstance().payOrder(DonHangActivity.this, token, "demozpdk://app", new PayOrderListener() {
-//                            @Override
-//                            public void onPaymentSucceeded(String s, String s1, String s2) {
-//                                Toast.makeText(DonHangActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
-//                            }
-//
-//                            @Override
-//                            public void onPaymentCanceled(String s, String s1) {
-//                                Toast.makeText(DonHangActivity.this, "Hủy bỏ", Toast.LENGTH_SHORT).show();
-//
-//                            }
-//
-//                            @Override
-//                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-//                                Toast.makeText(DonHangActivity.this, "Lỗi", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+
+                CreateOrder orderApi = new CreateOrder();
+                try {
+                    JSONObject data = orderApi.createOrder("1000");
+                    String code = data.getString("returncode");
+
+                    if (code.equals("1")) {
+
+                        String token = data.getString("zptranstoken");
+
+                        ZaloPaySDK.getInstance().payOrder(DonHangActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                            @Override
+                            public void onPaymentSucceeded(final String transactionId, final String transToken, final String appTransID) {
+                                Toast.makeText(DonHangActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
+                                switch (type)
+                                {
+                                    case 1:
+                                        MuaSanPham muaSanPham = new MuaSanPham(MaKhachHang,hoaDon.getChiTietHoaDons().get(0).getMaSanPham(),1,1,hoaDon.getChiTietHoaDons().get(0).getTriGia(),Convent_Money.date());
+                                        muahangnhanh(muaSanPham);
+                                        break;
+                                    case 2:
+                                        hoaDon.setTrangThai(1);
+                                        hoaDon.setNgayXuatHoaDon(Convent_Money.date());
+                                        muatheogio(hoaDon);
+                                        break;
+                                }
+                            }
+
+                            @Override
+                            public void onPaymentCanceled(String zpTransToken, String appTransID) {
+                                Toast.makeText(DonHangActivity.this, "Thanh toán bị hủy", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            @Override
+                            public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String appTransID) {
+                                Toast.makeText(DonHangActivity.this, "Thanh toán thất bại", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
         });
@@ -214,9 +218,9 @@ public abstract class DonHangActivity extends AppCompatActivity {
         list_giohang.setAdapter(adapter);
     }
 
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//        ZaloPaySDK.getInstance().onResult(intent);
-//    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ZaloPaySDK.getInstance().onResult(intent);
+    }
 }
