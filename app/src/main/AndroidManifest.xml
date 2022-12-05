@@ -8,6 +8,10 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+    <queries>
+        <package android:name="vn.com.vng.zalopay" />
+        <package android:name="vn.com.vng.zalopay.sbmc" />
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -33,13 +37,21 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
             android:name=".view.DonHangActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:launchMode="singleTask"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="demozpdk"
+                    android:host="app" />
+            </intent-filter>
         </activity>
+
         <activity
             android:name=".view.CapNhatThongTinActivity"
             android:exported="false">
@@ -68,7 +80,7 @@
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:exported="false">
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

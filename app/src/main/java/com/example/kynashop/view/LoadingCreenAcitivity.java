@@ -17,6 +17,7 @@ public class LoadingCreenAcitivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_loading_creen_acitivity);
         loading = findViewById(R.id.loading);
         Glide.with(this).load(R.mipmap.loading).into(loading);
