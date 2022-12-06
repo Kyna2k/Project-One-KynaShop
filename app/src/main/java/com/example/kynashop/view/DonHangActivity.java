@@ -190,7 +190,7 @@ public class DonHangActivity extends AppCompatActivity {
         Log.e("loi_muahang", "muatheogioNoOk: " + throwable.getMessage() );
 
     }
-
+    //copy ham ngoai thang nay thoi
     @SuppressLint("NewApi")
     private void setGia(ArrayList<ChiTietHoaDon> ds)
     {

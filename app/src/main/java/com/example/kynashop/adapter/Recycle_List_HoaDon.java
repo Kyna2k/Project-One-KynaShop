@@ -1,5 +1,6 @@
 package com.example.kynashop.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +40,7 @@ public class Recycle_List_HoaDon extends RecyclerView.Adapter<Recycle_List_HoaDo
         return new ViewHolder(view);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.mahoadon.setText(String.valueOf(ds.get(position).getMaHoaDon()));
