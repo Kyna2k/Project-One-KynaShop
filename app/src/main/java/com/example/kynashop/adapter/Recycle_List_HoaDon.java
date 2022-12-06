@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kynashop.Interfaces.Click_ChiTietHoaDon;
 import com.example.kynashop.R;
 import com.example.kynashop.model.ChiTietHoaDon;
 import com.example.kynashop.model.Convent_Money;
@@ -25,11 +26,12 @@ import java.util.ArrayList;
 public class Recycle_List_HoaDon extends RecyclerView.Adapter<Recycle_List_HoaDon.ViewHolder> {
     private Context context;
     private ArrayList<HoaDon> ds;
-
-    public Recycle_List_HoaDon(Context context, ArrayList<HoaDon> ds)
+    private Click_ChiTietHoaDon click;
+    public Recycle_List_HoaDon(Context context, ArrayList<HoaDon> ds,Click_ChiTietHoaDon click)
     {
         this.context = context;
         this.ds = ds;
+        this.click = click;
     }
 
     @NonNull
@@ -84,6 +86,12 @@ public class Recycle_List_HoaDon extends RecyclerView.Adapter<Recycle_List_HoaDo
         holder.list_sanpham.setLayoutManager(linearLayoutManager);
         holder.list_sanpham.setNestedScrollingEnabled(false);
         holder.list_sanpham.setAdapter(adapter);
+        holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                click.click_me(ds.get(position));
+            }
+        });
     }
 
     @Override

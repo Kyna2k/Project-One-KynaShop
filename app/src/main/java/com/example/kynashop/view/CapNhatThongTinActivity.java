@@ -55,6 +55,7 @@ public class CapNhatThongTinActivity extends AppCompatActivity {
     private AlertDialog alertDialog;
     private FirebaseAuth mAuth;
     private API_Services requestInterface;
+    private int Type;
     private ArrayList<KhachHang> ds_khachhang = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class CapNhatThongTinActivity extends AppCompatActivity {
                 .build().create(API_Services.class);
         mAuth = FirebaseAuth.getInstance();
         khachHang = (KhachHang) getIntent().getExtras().getSerializable("KH");
+        Type = getIntent().getExtras().getInt("type",-1);
         btn_back = findViewById(R.id.btn_back);
         title = findViewById(R.id.title);
         btn_xacthuc = findViewById(R.id.btn_xacthuc);
@@ -127,12 +129,24 @@ public class CapNhatThongTinActivity extends AppCompatActivity {
         btn_capnhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                KhachHang khachHang_update = khachHang;
-                khachHang_update.setTenKhachHang(ten_khachhang.getText().toString());
-                khachHang_update.setSoDienThoai(number_phone.getText().toString());
-                khachHang_update.setDiaChi(diachi.getText().toString());
-                khachHang_update.setEmail(email.getText().toString());
-                CapNhat(khachHang_update);
+                if(diachi.getText().toString().equals(""))
+                {
+                    Toast.makeText(CapNhatThongTinActivity.this, "Vui lòng nhập địa chỉ nhận hàng", Toast.LENGTH_SHORT).show();
+                }else {
+                    KhachHang khachHang_update = khachHang;
+                    khachHang_update.setTenKhachHang(ten_khachhang.getText().toString());
+                    khachHang_update.setSoDienThoai(number_phone.getText().toString());
+                    khachHang_update.setDiaChi(diachi.getText().toString());
+                    khachHang_update.setEmail(email.getText().toString());
+                    CapNhat(khachHang_update);
+                }
+
+            }
+        });
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
@@ -153,6 +167,11 @@ public class CapNhatThongTinActivity extends AppCompatActivity {
         if(integer > 0)
         {
             Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+            if(Type == 005)
+            {
+                setResult(1809);
+            }
+            finish();
         }
     }
     public void getCheck()

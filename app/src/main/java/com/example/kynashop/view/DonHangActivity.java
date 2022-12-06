@@ -2,8 +2,13 @@ package com.example.kynashop.view;
 
 import static com.example.kynashop.API.API_Services.BASE_Service;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +33,7 @@ import com.example.kynashop.adapter.Recycle_List_DonHang;
 import com.example.kynashop.model.ChiTietHoaDon;
 import com.example.kynashop.model.Convent_Money;
 import com.example.kynashop.model.HoaDon;
+import com.example.kynashop.model.KhachHang;
 import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.MuaSanPham;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -61,7 +67,8 @@ public class DonHangActivity extends AppCompatActivity {
     private HoaDon hoaDon;
     private int type,MaKhachHang;
 
-
+    private CardView ThongTin;
+    private TextView ten_khachhang,sdt,diachi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +88,9 @@ public class DonHangActivity extends AppCompatActivity {
         tong_gia_goc = findViewById(R.id.tong_gia_goc);
         tong_gia_ban = findViewById(R.id.tong_gia_ban);
         btn_back = findViewById(R.id.btn_back);
+        ten_khachhang = findViewById(R.id.ten_khachhang);
+        sdt = findViewById(R.id.sdt);
+        diachi = findViewById(R.id.diachi);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,12 +100,13 @@ public class DonHangActivity extends AppCompatActivity {
         tong = findViewById(R.id.tong);
         btn_mua = findViewById(R.id.btn_mua);
         MaKhachHang = getSharedPreferences("KhachHach", Context.MODE_PRIVATE).getInt("makhachhang",-1);
+        KhachHang(MaKhachHang);
         hoaDon = (HoaDon) getIntent().getExtras().getSerializable("value");
         type = getIntent().getExtras().getInt("type");
         list_chitiethoadon = hoaDon.getChiTietHoaDons();
         setGia(list_chitiethoadon);
         setData(list_chitiethoadon);
-
+        btn_mua.setEnabled(false);
         btn_mua.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @SuppressLint("SetTextI18n")
@@ -223,4 +234,49 @@ public class DonHangActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
     }
+    private void KhachHang(int getKhachHang)
+    {
+        new CompositeDisposable().add(requestInterface.getKhachHang(getKhachHang)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleResponse, this::handleError)
+        );
+    }
+
+    private void handleError(Throwable throwable) {
+        Toast.makeText(this, "Lỗi Lấy thông tin", Toast.LENGTH_SHORT).show();
+    }
+
+    private void handleResponse(KhachHang khachHang) {
+        if(khachHang.getSoDienThoai() != null && khachHang.getDiaChi() != null && khachHang.getTenKhachHang() != null)
+        {
+            ten_khachhang.setText("Tên khách hàng: " + khachHang.getTenKhachHang());
+            sdt.setText("Số điện thoại: " + khachHang.getSoDienThoai());
+            diachi.setText("Địa chỉ: "+ khachHang.getDiaChi());
+            btn_mua.setEnabled(true);
+        }else {
+            Intent intent = new Intent(DonHangActivity.this, CapNhatThongTinActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("KH",khachHang);
+            bundle.putInt("type",005);
+            intent.putExtras(bundle);
+            capnhatdulieu.launch(intent);
+        }
+    }
+    ActivityResultLauncher<Intent> capnhatdulieu = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+
+                    switch (result.getResultCode())
+                    {
+                        case 1809:
+                            KhachHang(MaKhachHang);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            });
 }

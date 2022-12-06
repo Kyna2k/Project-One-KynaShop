@@ -38,6 +38,7 @@ import com.example.kynashop.view.CameraActivity;
 import com.example.kynashop.view.CapNhatThongTinActivity;
 import com.example.kynashop.view.LoginActivity;
 import com.example.kynashop.view.MainActivity;
+import com.facebook.login.LoginManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -111,6 +112,13 @@ public class Fragment_ThongTInCaNhan extends Fragment {
             @Override
             public void onClick(View view) {
                 Dialog();
+            }
+        });
+        dangxuat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+                LoginManager.getInstance().logOut();
             }
         });
         setValue();

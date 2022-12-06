@@ -1,6 +1,7 @@
 package com.example.kynashop.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,10 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kynashop.API.API_Services;
+import com.example.kynashop.Interfaces.Click_ChiTietHoaDon;
 import com.example.kynashop.LoadingSreen.LoadingScreen;
 import com.example.kynashop.R;
 import com.example.kynashop.adapter.Recycle_List_HoaDon;
 import com.example.kynashop.model.HoaDon;
+import com.example.kynashop.view.ChiTietHoaDonActivity;
 import com.example.kynashop.view.MainActivity;
 
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class Fragment_HoaDon extends Fragment {
+public class Fragment_HoaDon extends Fragment implements Click_ChiTietHoaDon {
     private RecyclerView list_hoadon;
     private API_Services requestInterface;
     private Recycle_List_HoaDon adapter;
@@ -89,7 +92,7 @@ public class Fragment_HoaDon extends Fragment {
     }
     public void setData(ArrayList<HoaDon> ds)
     {
-        adapter = new Recycle_List_HoaDon(getContext(),ds);
+        adapter = new Recycle_List_HoaDon(getContext(),ds,this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         list_hoadon.setLayoutManager(linearLayoutManager);
         list_hoadon.setAdapter(adapter);
@@ -119,5 +122,14 @@ public class Fragment_HoaDon extends Fragment {
         Log.e("getValue", "getHoaDonNo: "+ throwable.getMessage() );
         LoadingScreen.LoadingDismi();
 
+    }
+
+    @Override
+    public void click_me(HoaDon hoaDon) {
+        Intent intent = new Intent(getContext(), ChiTietHoaDonActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("HOADON",hoaDon);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }
