@@ -2,6 +2,7 @@ package com.example.kynashop.view;
 
 import static com.example.kynashop.API.API_Services.BASE_Service;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,15 +13,20 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.kynashop.API.API_Services;
+import com.example.kynashop.Interfaces.getValueDanhGia;
 import com.example.kynashop.R;
+import com.example.kynashop.adapter.Recycle_DanhGia;
 import com.example.kynashop.adapter.Recycle_List_DonHang;
+import com.example.kynashop.model.ChiTietHoaDon;
 import com.example.kynashop.model.Convent_Money;
 import com.example.kynashop.model.HoaDon;
 import com.example.kynashop.model.KhachHang;
@@ -35,7 +41,7 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ChiTietHoaDonActivity extends AppCompatActivity {
+public class ChiTietHoaDonActivity extends AppCompatActivity implements getValueDanhGia {
 
     private RecyclerView list_giohang;
     private TextView tongsoluong, tong_gia_goc, tong_gia_ban, tong;
@@ -108,6 +114,12 @@ public class ChiTietHoaDonActivity extends AppCompatActivity {
                 btn_mua.setText("Đã Đánh giá");
                 break;
         }
+        btn_mua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogDanhGia(hoaDon.getChiTietHoaDons());
+            }
+        });
     }
     //copy ham ngoai thang nay thoi
     @SuppressLint("NewApi")
@@ -154,5 +166,38 @@ public class ChiTietHoaDonActivity extends AppCompatActivity {
         sdt.setText("Số điện thoại: " + khachHang.getSoDienThoai());
         diachi.setText("Địa chỉ: "+ khachHang.getDiaChi());
     }
+    private void dialogDanhGia(ArrayList<ChiTietHoaDon> ds_ct)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_danhgia,null);
+        builder.setView(view);
+        AlertDialog alertDialog = builder.create();
+        Button btn_cancel = view.findViewById(R.id.btn_cancel);
+        Button btn_okay = view.findViewById(R.id.btn_okay);
+        RecyclerView list = view.findViewById(R.id.recyclerView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        list.setLayoutManager(linearLayoutManager);
+        list.setAdapter(new Recycle_DanhGia(this,ds_ct,this));
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        btn_okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
+        alertDialog.show();
+        alertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+
+    }
+
+    @Override
+    public void getThongTin(int MaSanPham, EditText value) {
+
+
+    }
 }
