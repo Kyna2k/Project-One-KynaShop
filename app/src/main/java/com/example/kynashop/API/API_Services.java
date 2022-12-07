@@ -54,6 +54,7 @@ public interface API_Services {
 
     @GET("getGioHang")
     Observable<HoaDon> getGioHang(@Query("maKhachHang") int maKhachHang, @Query("trangthai") int trangthai);
+
     @POST("updateSoLuongTrongGioHang")
     Observable<Integer> updateSoLuongTrongGioHang(@Body ChiTietHoaDon chiTietHoaDon);
 
