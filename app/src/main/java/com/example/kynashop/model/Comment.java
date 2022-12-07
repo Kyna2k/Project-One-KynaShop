@@ -6,26 +6,20 @@ public class Comment implements Serializable {
     private String noiDung;
     private int rate;
     private String ngay;
+    private int maSanPham;
     private int maKhachHang;
     private KhachHang khach;
 
     public Comment() {
     }
 
-    public Comment(String noiDung, int rate, String ngay, int maKhachHang, KhachHang khach) {
+    public Comment(String noiDung, int rate, String ngay, int maSanPham, int maKhachHang, KhachHang khach) {
         this.noiDung = noiDung;
         this.rate = rate;
         this.ngay = ngay;
+        this.maSanPham = maSanPham;
         this.maKhachHang = maKhachHang;
         this.khach = khach;
-    }
-
-    public String getNgay() {
-        return ngay;
-    }
-
-    public void setNgay(String ngay) {
-        this.ngay = ngay;
     }
 
     public String getNoiDung() {
@@ -42,6 +36,22 @@ public class Comment implements Serializable {
 
     public void setRate(int rate) {
         this.rate = rate;
+    }
+
+    public String getNgay() {
+        return ngay;
+    }
+
+    public void setNgay(String ngay) {
+        this.ngay = ngay;
+    }
+
+    public int getMaSanPham() {
+        return maSanPham;
+    }
+
+    public void setMaSanPham(int maSanPham) {
+        this.maSanPham = maSanPham;
     }
 
     public int getMaKhachHang() {

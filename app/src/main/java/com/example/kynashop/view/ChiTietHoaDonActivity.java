@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import com.example.kynashop.R;
 import com.example.kynashop.adapter.Recycle_DanhGia;
 import com.example.kynashop.adapter.Recycle_List_DonHang;
 import com.example.kynashop.model.ChiTietHoaDon;
+import com.example.kynashop.model.Comment;
 import com.example.kynashop.model.Convent_Money;
 import com.example.kynashop.model.HoaDon;
 import com.example.kynashop.model.KhachHang;
@@ -57,6 +59,7 @@ public class ChiTietHoaDonActivity extends AppCompatActivity implements getValue
     private int type,MaKhachHang;
     private CardView ThongTin;
     private TextView ten_khachhang,sdt,diachi;
+    private ArrayList<Comment> ds_comment = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +90,10 @@ public class ChiTietHoaDonActivity extends AppCompatActivity implements getValue
         KhachHang(MaKhachHang);
         hoaDon = (HoaDon) getIntent().getExtras().getSerializable("HOADON");
         list_chitiethoadon = hoaDon.getChiTietHoaDons();
+        for(int i = 0; i < list_chitiethoadon.size();i++)
+        {
+            ds_comment.add(new Comment());
+        }
         setGia(list_chitiethoadon);
         setData(list_chitiethoadon);
         btn_mua.setEnabled(false);
@@ -109,6 +116,8 @@ public class ChiTietHoaDonActivity extends AppCompatActivity implements getValue
             case 3:
                 btn_mua.setText("Đánh giá");
                 btn_mua.setEnabled(true);
+                btn_mua.setTextColor(Color.parseColor("#ffffff"));
+                btn_mua.setBackground(getDrawable(R.drawable.background_btn));
                 break;
             case 4:
                 btn_mua.setText("Đã Đánh giá");
@@ -187,7 +196,8 @@ public class ChiTietHoaDonActivity extends AppCompatActivity implements getValue
         btn_okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                addComment(ds_comment);
+                alertDialog.dismiss();
             }
         });
         alertDialog.show();
@@ -195,9 +205,31 @@ public class ChiTietHoaDonActivity extends AppCompatActivity implements getValue
 
     }
 
+    private void addComment(ArrayList<Comment> ds_up)
+    {
+        new CompositeDisposable().add(requestInterface.addComment(ds_up)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::upcomment_z, this::upcomment_no)
+        );
+    }
+
+    private void upcomment_no(Throwable throwable) {
+        Log.e("comment", "upcomment_no: " + throwable.getMessage() );
+    }
+
+    private void upcomment_z(Integer integer) {
+        if(integer > 0)
+        {
+            Toast.makeText(this, "Thành công", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
-    public void getThongTin(int MaSanPham, EditText value) {
-
-
+    public void getThongTin(int MaSanPham, int potion, String noidung_) {
+        ds_comment.get(potion).setMaKhachHang(MaKhachHang);
+        ds_comment.get(potion).setNoiDung(noidung_);
+        ds_comment.get(potion).setMaSanPham(MaSanPham);
+        ds_comment.get(potion).setNgay(Convent_Money.date());
     }
 }

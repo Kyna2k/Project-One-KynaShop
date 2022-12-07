@@ -1,6 +1,7 @@
 package com.example.kynashop.API;
 
 import com.example.kynashop.model.ChiTietHoaDon;
+import com.example.kynashop.model.Comment;
 import com.example.kynashop.model.HoaDon;
 import com.example.kynashop.model.KhachHang;
 import com.example.kynashop.model.KhachHangAddSanPhamVaoGioHang;
@@ -90,4 +91,7 @@ public interface API_Services {
     @Multipart
     @POST("UpdateAvartar")
     Observable<Integer> UpdateAvartar(@Part("id")RequestBody id, @Part MultipartBody.Part file);
+
+    @POST("addComment")
+    Observable<Integer> addComment(@Body ArrayList<Comment> ds);
 }

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +70,23 @@ public class Recycle_DanhGia extends RecyclerView.Adapter<Recycle_DanhGia.ViewHo
 
         holder.ten_sp.setText(ds.get(position).getSanPham().getTenSanPham());
         holder.soluong.setText( "X"+String.valueOf(ds.get(position).getSoLuong()));
-        get.getThongTin(ds.get(position).getMaSanPham(),holder.noidung);
+        holder.noidung.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                get.getThongTin(ds.get(holder.getAdapterPosition()).getMaSanPham(),holder.getAdapterPosition(),holder.noidung.getText().toString());
+            }
+        });
+
     }
 
     @Override

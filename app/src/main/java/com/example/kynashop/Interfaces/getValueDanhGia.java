@@ -4,5 +4,5 @@ import android.widget.EditText;
 
 public interface getValueDanhGia {
 
-    public void getThongTin(int MaSanPham, EditText value);
+    public void getThongTin(int MaSanPham, int potion, String noidung_);
 }
