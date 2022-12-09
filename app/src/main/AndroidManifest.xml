@@ -13,6 +13,7 @@
     <queries>
         <package android:name="vn.com.vng.zalopay" />
         <package android:name="vn.com.vng.zalopay.sbmc" />
+        <package android:name="com.facebook.katana" />
     </queries>
 
     <application
