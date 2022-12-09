@@ -94,4 +94,7 @@ public interface API_Services {
 
     @POST("addComment")
     Observable<Integer> addComment(@Body ArrayList<Comment> ds);
+
+    @POST("HuyDonHang")
+    Observable<Integer> HuyDonHang(@Query("MaDonHang") int MaDonHang, @Query("maNhanVien") int maNhanVien);
 }
