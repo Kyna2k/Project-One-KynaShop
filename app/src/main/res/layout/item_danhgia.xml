@@ -13,20 +13,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <com.wil
+
+    <RatingBar
+        android:theme="@style/RatingBar"
+        android:layout_marginTop="10dp"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
+        android:id="@+id/ratingBar"
+        android:stepSize="1"
+        android:isIndicator="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
     <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="5dp"
+
         android:id="@+id/edt_username"
         style="@style/edit_dangky"
-        android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include">
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:gravity="top"
             android:id="@+id/noidung"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:gravity="top"
             android:hint="Vui lòng không bỏ trống đánh giá"
             android:textCursorDrawable="@drawable/cursor"
             android:textSize="16sp" />

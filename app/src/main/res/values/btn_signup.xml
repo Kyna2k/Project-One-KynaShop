@@ -9,4 +9,8 @@
         <item name="backgroundTint">@null</item>
         <item name="android:background">@drawable/background_btn</item>
     </style>
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#808080</item>
+        <item name="colorControlActivated">#FFC132</item>
+    </style>
 </resources>

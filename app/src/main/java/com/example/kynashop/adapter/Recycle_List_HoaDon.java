@@ -67,12 +67,12 @@ public class Recycle_List_HoaDon extends RecyclerView.Adapter<Recycle_List_HoaDo
                 holder.trangthai.setTextColor(Color.parseColor("#11998e"));
                 break;
             case 3:
-                holder.trangthai.setText("Đánh giá");
-                holder.trangthai.setTextColor(Color.parseColor("#11998e"));
+                holder.trangthai.setText("Chờ đánh giá");
+                holder.trangthai.setTextColor(Color.parseColor("#40BFFF"));
                 break;
             case 4:
                 holder.trangthai.setText("Đã Đánh giá");
-                holder.trangthai.setTextColor(Color.parseColor("#11998e"));
+                holder.trangthai.setTextColor(Color.parseColor("#32CD32"));
                 break;
         }
         Double x = 0.0;

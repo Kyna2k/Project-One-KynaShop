@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -83,7 +84,7 @@ public class Recycle_DanhGia extends RecyclerView.Adapter<Recycle_DanhGia.ViewHo
 
             @Override
             public void afterTextChanged(Editable editable) {
-                get.getThongTin(ds.get(holder.getAdapterPosition()).getMaSanPham(),holder.getAdapterPosition(),holder.noidung.getText().toString());
+                get.getThongTin(ds.get(holder.getAdapterPosition()).getMaSanPham(),holder.getAdapterPosition(),holder.noidung.getText().toString(),(int) holder.ratingBar.getRating());
             }
         });
 
@@ -99,12 +100,13 @@ public class Recycle_DanhGia extends RecyclerView.Adapter<Recycle_DanhGia.ViewHo
         TextView ten_sp,gia,gia_goc,khuyenMai,soluong;
         CardView list_car;
         EditText noidung;
+        RatingBar ratingBar;
         View include;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             include =itemView.findViewById(R.id.include);
             noidung =itemView.findViewById(R.id.noidung);
-
+            ratingBar = itemView.findViewById(R.id.ratingBar);
             hinh_laptop = include.findViewById(R.id.hinh_laptop);
             ten_sp = include.findViewById(R.id.ten_sp);
             gia = include.findViewById(R.id.gia);

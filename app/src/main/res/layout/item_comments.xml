@@ -24,16 +24,29 @@
         app:layout_constraintTop_toTopOf="@+id/avartar"
         tools:ignore="MissingConstraints" />
 
+    <RatingBar
+        android:theme="@style/RatingBar"
+        android:layout_marginTop="5dp"
+        android:isIndicator="true"
+        android:id="@+id/ratingBar2"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stepSize="1"
+        app:layout_constraintStart_toStartOf="@+id/ten_khachhang"
+        app:layout_constraintTop_toBottomOf="@+id/ten_khachhang" />
 
     <TextView
-        android:fontFamily="@font/poppinsregular"
+
         android:id="@+id/noidung"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppinsregular"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/ten_khachhang"
-        app:layout_constraintTop_toBottomOf="@+id/ten_khachhang"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ratingBar2"
+        app:layout_constraintTop_toBottomOf="@+id/avartar"
         tools:ignore="MissingConstraints" />
 
     <TextView

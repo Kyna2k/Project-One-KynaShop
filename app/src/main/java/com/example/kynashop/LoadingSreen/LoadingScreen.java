@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +30,15 @@ public class LoadingScreen {
         alertDialog_loading.setCanceledOnTouchOutside(false);
         alertDialog_loading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog_loading.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(alertDialog_loading.isShowing())
+                {
+                    alertDialog_loading.dismiss();
+                }
+            }
+        },15000);
     }
     public static void LoadingDismi()
     {

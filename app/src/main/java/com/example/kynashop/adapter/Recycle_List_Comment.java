@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,7 @@ public class Recycle_List_Comment extends RecyclerView.Adapter<Recycle_List_Comm
         holder.ten_khachhang.setText(ds.get(position).getKhach().getTenKhachHang());
         holder.date.setText(ds.get(position).getNgay());
         holder.noidung.setText(ds.get(position).getNoiDung());
+        holder.ratingBar2.setRating((float) ds.get(position).getRate());
     }
 
     @Override
@@ -56,13 +58,14 @@ public class Recycle_List_Comment extends RecyclerView.Adapter<Recycle_List_Comm
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView  avartar;
         TextView ten_khachhang,noidung,date;
-
+        RatingBar ratingBar2;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             avartar = itemView.findViewById(R.id.avartar);
             ten_khachhang = itemView.findViewById(R.id.ten_khachhang);
             noidung = itemView.findViewById(R.id.noidung);
             date = itemView.findViewById(R.id.date);
+            ratingBar2 = itemView.findViewById(R.id.ratingBar2);
         }
     }
 }

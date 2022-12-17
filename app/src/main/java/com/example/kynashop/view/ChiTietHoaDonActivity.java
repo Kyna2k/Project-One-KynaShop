@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -97,8 +98,8 @@ public class ChiTietHoaDonActivity extends AppCompatActivity implements getValue
         setGia(list_chitiethoadon);
         setData(list_chitiethoadon);
         btn_mua.setEnabled(false);
-        btn_mua.setBackground(getDrawable(R.drawable.background_btn3));
-        btn_mua.setTextColor(Color.parseColor("#11998e"));
+        btn_mua.setBackground(getDrawable(R.drawable.background_btn5));
+        btn_mua.setTextColor(Color.parseColor("#ffffff"));
         switch (hoaDon.getTrangThai())
         {
             case 255:
@@ -108,19 +109,21 @@ public class ChiTietHoaDonActivity extends AppCompatActivity implements getValue
                 break;
             case 1:
                 btn_mua.setText("Chờ xác nhận");
-                btn_mua.setTextColor(Color.parseColor("#FF4545"));
+                btn_mua.setTextColor(Color.parseColor("#ffffff"));
                 break;
             case 2:
                 btn_mua.setText("Đã xác nhận");
                 break;
             case 3:
-                btn_mua.setText("Đánh giá");
+                btn_mua.setText("Chờ đánh giá");
                 btn_mua.setEnabled(true);
                 btn_mua.setTextColor(Color.parseColor("#ffffff"));
                 btn_mua.setBackground(getDrawable(R.drawable.background_btn));
                 break;
             case 4:
                 btn_mua.setText("Đã Đánh giá");
+                btn_mua.setBackground(getDrawable(R.drawable.background_btn6));
+
                 break;
         }
         btn_mua.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +187,7 @@ public class ChiTietHoaDonActivity extends AppCompatActivity implements getValue
         Button btn_cancel = view.findViewById(R.id.btn_cancel);
         Button btn_okay = view.findViewById(R.id.btn_okay);
         RecyclerView list = view.findViewById(R.id.recyclerView);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         list.setLayoutManager(linearLayoutManager);
         list.setAdapter(new Recycle_DanhGia(this,ds_ct,this));
@@ -221,15 +225,37 @@ public class ChiTietHoaDonActivity extends AppCompatActivity implements getValue
     private void upcomment_z(Integer integer) {
         if(integer > 0)
         {
-            Toast.makeText(this, "Thành công", Toast.LENGTH_SHORT).show();
+
+            hoaDon.setTrangThai(4);
+            updatetrangthaisaucomment(hoaDon);
         }
     }
 
     @Override
-    public void getThongTin(int MaSanPham, int potion, String noidung_) {
+    public void getThongTin(int MaSanPham, int potion, String noidung_,int racting) {
         ds_comment.get(potion).setMaKhachHang(MaKhachHang);
         ds_comment.get(potion).setNoiDung(noidung_);
         ds_comment.get(potion).setMaSanPham(MaSanPham);
+        ds_comment.get(potion).setRate(racting);
         ds_comment.get(potion).setNgay(Convent_Money.date());
+    }
+    public void updatetrangthaisaucomment(HoaDon hoaDon)
+    {
+        new CompositeDisposable().add(requestInterface.updateTrangThaiMuaHang(hoaDon)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::update, this::can_update)
+        );
+    }
+
+    private void can_update(Throwable throwable) {
+    }
+
+    private void update(Integer integer) {
+        if(integer > 0)
+        {
+            Toast.makeText(this, "Thành công", Toast.LENGTH_SHORT).show();
+            onCreate(new Bundle());
+        }
     }
 }
