@@ -15,6 +15,8 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,8 +39,7 @@ import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.NhaSanXuat;
 import com.example.kynashop.model.SanPhams;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.taufiqrahman.reviewratings.BarLabels;
-import com.taufiqrahman.reviewratings.RatingReviews;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,7 +57,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ImageView btn_back;
     private ImageSlider slide_sanpham;
-    private TextView ten_sp,gia_ban,gia_goc,giamgia,thongso,ten_nsx;
+    private TextView ten_sp,gia_ban,gia_goc,giamgia,thongso,ten_nsx,xemthem;
     private RecyclerView list_comment;
     private Button themgiohang,muangay;
     private int MaSanPham;
@@ -64,7 +65,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     private API_Services requestInterface;
     private Recycle_List_Comment apdater_comment;
     private Double trigia;
-    private RatingReviews ratingReviews;
+    private WebView mota;
     private ArrayList<SlideModel> hinhSan = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,8 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         giamgia = findViewById(R.id.giamgia);
         thongso = findViewById(R.id.thongso);
         ten_nsx = findViewById(R.id.ten_nsx);
-        ratingReviews =(RatingReviews) findViewById(R.id.rating_reviews);
+        xemthem = findViewById(R.id.xemthem);
+        mota = findViewById(R.id.mota);
         list_comment = findViewById(R.id.list_comment);
         themgiohang = findViewById(R.id.themgiohang);
         muangay = findViewById(R.id.muangay);
@@ -209,21 +211,53 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             }else {
                 setDataComment(new ArrayList<Comment>());
             }
+            String html = "<!DOCTYPE html>\n" +
+                    "<html lang=\"en\">\n" +
+                    "<head>\n" +
+                    "    <meta charset=\"UTF-8\">\n" +
+                    "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
+                    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                    "    <title>Document</title>\n" +
+                    "    <style>\n" +
+                    "        img{\n" +
+                    "            width: 100%;\n" +
+                    "        }\n" +
+                    "    </style>\n" +
+                    "</head>\n" +
+                    "<body>";
+
+            String end ="</body>\n" +
+                    "</html>";
             SlideShowSanPham(sanPhams.getHinhs());
+            mota.requestFocus();
+            mota.getSettings().setJavaScriptEnabled(true);
+            mota.getSettings().setLightTouchEnabled(true);
+            mota.setSoundEffectsEnabled(true);
+            ViewGroup.LayoutParams params = mota.getLayoutParams();
+            params.height = 200;
+            if(sanPhams.getMota() != null)
+            {
+                mota.loadData(html+sanPhams.getMota()+end,"text/html; charset=utf-8", "UTF-8");
+                xemthem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(xemthem.getText().equals("MORE"))
+                        {
+                            params.height = mota.getLayoutParams().WRAP_CONTENT;
+                            xemthem.setText("HIDE");
+                        }else {
+                            params.height = 200;
+                            xemthem.setText("MORE");
+
+                        }
+
+                    }
+                });
+            }
+
         }
 
-        int colors[] = new int[]{
-                Color.parseColor("#0e9d58"),
-                Color.parseColor("#bfd047"),
-                Color.parseColor("#ffc105"),
-                Color.parseColor("#ef7e14"),
-                Color.parseColor("#d36259")};
-        int[] value = new int[sanPhams.getCommentApis().size()];
-        for(int i = 0; i < sanPhams.getCommentApis().size(); i++)
-        {
-            value[i] = sanPhams.getCommentApis().get(i).getRate();
-        }
-        ratingReviews.createRatingBars(100, BarLabels.STYPE1, colors, value);
+
         LoadingScreen.LoadingDismi();
     }
     private void SlideShowSanPham(ArrayList<Hinh> ds)

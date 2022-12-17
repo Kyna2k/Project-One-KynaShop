@@ -38,7 +38,7 @@ public class LoadingScreen {
                     alertDialog_loading.dismiss();
                 }
             }
-        },15000);
+        },1000*60);
     }
     public static void LoadingDismi()
     {
