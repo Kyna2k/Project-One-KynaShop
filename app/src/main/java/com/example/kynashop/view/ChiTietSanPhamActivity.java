@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,8 @@ import com.example.kynashop.model.KhuyenMai;
 import com.example.kynashop.model.NhaSanXuat;
 import com.example.kynashop.model.SanPhams;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.taufiqrahman.reviewratings.BarLabels;
+import com.taufiqrahman.reviewratings.RatingReviews;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,6 +64,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     private API_Services requestInterface;
     private Recycle_List_Comment apdater_comment;
     private Double trigia;
+    private RatingReviews ratingReviews;
     private ArrayList<SlideModel> hinhSan = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         giamgia = findViewById(R.id.giamgia);
         thongso = findViewById(R.id.thongso);
         ten_nsx = findViewById(R.id.ten_nsx);
+        ratingReviews =(RatingReviews) findViewById(R.id.rating_reviews);
         list_comment = findViewById(R.id.list_comment);
         themgiohang = findViewById(R.id.themgiohang);
         muangay = findViewById(R.id.muangay);
@@ -206,6 +211,19 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             }
             SlideShowSanPham(sanPhams.getHinhs());
         }
+
+        int colors[] = new int[]{
+                Color.parseColor("#0e9d58"),
+                Color.parseColor("#bfd047"),
+                Color.parseColor("#ffc105"),
+                Color.parseColor("#ef7e14"),
+                Color.parseColor("#d36259")};
+        int[] value = new int[sanPhams.getCommentApis().size()];
+        for(int i = 0; i < sanPhams.getCommentApis().size(); i++)
+        {
+            value[i] = sanPhams.getCommentApis().get(i).getRate();
+        }
+        ratingReviews.createRatingBars(100, BarLabels.STYPE1, colors, value);
         LoadingScreen.LoadingDismi();
     }
     private void SlideShowSanPham(ArrayList<Hinh> ds)
