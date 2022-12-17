@@ -8,6 +8,7 @@
     android:id="@+id/click_nsx"
     android:layout_height="wrap_content">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@mipmap/background_nsx"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingStart="20dp"
@@ -16,8 +17,8 @@
         android:layout_height="match_parent">
         <ImageView
             android:id="@+id/hinh_nsx"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

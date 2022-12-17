@@ -75,4 +75,7 @@ dependencies {
 
     //API zalopay
     implementation("com.squareup.okhttp3:okhttp:4.7.2")
+
+    //Simple rating
+    implementation 'com.github.ome450901:SimpleRatingBar:LATEST_VERSION'
 }
