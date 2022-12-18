@@ -104,6 +104,7 @@ public class Recycle_List_GioHang extends RecyclerView.Adapter<Recycle_List_GioH
                 ((MainActivity)context).sendBroadcast(intent);
             }
         });
+        click_item_gioHang.edit_soluong(holder.soluong,ds.get(position));
     }
 
     @Override
@@ -126,7 +127,6 @@ public class Recycle_List_GioHang extends RecyclerView.Adapter<Recycle_List_GioH
             btn_cong = itemView.findViewById(R.id.btn_cong);
             soluong = itemView.findViewById(R.id.soluong);
             btn_xoa =itemView.findViewById(R.id.btn_xoa);
-            click_item_gioHang.edit_soluong(soluong);
             list_car = itemView.findViewById(R.id.list_car);
             gia_goc = itemView.findViewById(R.id.gia_goc);
             khuyenMai = itemView.findViewById(R.id.khuyenMai);

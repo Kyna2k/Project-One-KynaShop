@@ -7,6 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -241,20 +245,34 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             mota.getSettings().setJavaScriptEnabled(true);
             mota.getSettings().setLightTouchEnabled(true);
             mota.setSoundEffectsEnabled(true);
-            ViewGroup.LayoutParams params = mota.getLayoutParams();
-            params.height = 200;
+
             if(sanPhams.getMota() != null)
             {
                 mota.loadData(html+sanPhams.getMota()+end,"text/html; charset=utf-8", "UTF-8");
+                int y_2 = mota.getMeasuredHeight();
+                ViewGroup.LayoutParams params = mota.getLayoutParams();
+                params.height = 800;
                 xemthem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if(xemthem.getText().equals("MORE"))
                         {
-                            params.height = mota.getLayoutParams().WRAP_CONTENT;
+
+                            ValueAnimator slideAnimator = ValueAnimator
+                                    .ofInt(params.height, y_2)
+                                    .setDuration(500);
+                            slideAnimator.addUpdateListener(animation1 -> {
+                                Integer value = (Integer) animation1.getAnimatedValue();
+                                params.height = value.intValue();
+                                mota.requestLayout();
+                            });
+                            AnimatorSet animationSet = new AnimatorSet();
+                            animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
+                            animationSet.play(slideAnimator);
+                            animationSet.start();
                             xemthem.setText("HIDE");
                         }else {
-                            params.height = 200;
+                            params.height = 800;
                             xemthem.setText("MORE");
 
                         }

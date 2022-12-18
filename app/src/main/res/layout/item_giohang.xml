@@ -88,8 +88,11 @@
             android:layout_marginEnd="10dp"
             android:text="1"
             android:gravity="center"
+            android:maxLines="1"
+            android:imeOptions="actionGo"
             android:textSize="12sp"
             app:strokeWidth="0dp"
+            android:inputType="number"
             android:maxLength="3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

@@ -2,12 +2,17 @@ package com.example.kynashop.view;
 
 import static com.example.kynashop.API.API_Services.BASE_Service;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -37,6 +42,11 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -78,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     private KhachHang khachHang_getFromFB_GG;
     private String name,email,image;
     private int type = 1;
+    GoogleSignInClient mGoogleSignInClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +105,9 @@ public class LoginActivity extends AppCompatActivity {
         btn_google = findViewById(R.id.btn_google);
         btn_facebook = findViewById(R.id.btn_facebook);
         mAuth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
         btn_dangnhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,12 +160,21 @@ public class LoginActivity extends AppCompatActivity {
                 mResendToken = forceResendingToken;
             }
         };
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+            }
+        });
         btn_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                checkLogin.launch(signInIntent);
             }
         });
+
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -190,7 +213,13 @@ public class LoginActivity extends AppCompatActivity {
     private void handleError(Throwable throwable) {
         Toast.makeText(this, "Lỗi đăng nhập", Toast.LENGTH_SHORT).show();
         Log.e("loilogin", "handleError: " + throwable.getMessage() );
-        LoadingScreen.LoadingDismi();
+        try {
+            LoadingScreen.LoadingDismi();
+
+        }catch (Exception E)
+        {
+
+        }
     }
 
     private void handleResponse(KhachHang khachHang) {
@@ -210,7 +239,13 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
-        LoadingScreen.LoadingDismi();
+        try {
+            LoadingScreen.LoadingDismi();
+
+        }catch (Exception E)
+        {
+
+        }
         finish();
     }
 
@@ -322,5 +357,29 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+    ActivityResultLauncher<Intent> checkLogin = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                        try {
+                            //đăng nhập thành công
+                            GoogleSignInAccount account = task.getResult(ApiException.class);
+                            name = account.getDisplayName();
+                            image = account.getPhotoUrl().toString();
+                            type =2;
+                            String email_gg = account.getEmail();
+                            LoginModel loginModel = new LoginModel(email_gg,2);
+                            LoadingScreen.LoadingShow(LoginActivity.this,"Đang đăng nhập");
+                            login(loginModel);
+                        } catch (ApiException e) {
+                            //đăng nhập thất bại
+                            Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
 
 }

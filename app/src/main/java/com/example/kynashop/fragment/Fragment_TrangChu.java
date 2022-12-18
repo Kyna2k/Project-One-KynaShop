@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,8 @@ import com.example.kynashop.model.NhaSanXuat;
 import com.example.kynashop.model.SanPhams;
 import com.example.kynashop.view.MainActivity;
 import com.example.kynashop.view.SanPhamTheoGiDoActivity;
+import com.example.kynashop.view.SearchActivity;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
@@ -45,6 +48,8 @@ public class Fragment_TrangChu extends Fragment implements click_nhaphathanh {
     private ImageSlider Slide_khuyenMai;
     private ArrayList<KhuyenMai> ds_khuyenmaiAPi;
     private Recycle_Grid_SanPham apdater_sanpham;
+    private EditText timkiem;
+    private TextInputLayout textInputLayout;
     private ArrayList<SlideModel> ds_khuyenmai = new ArrayList<>();
     public Fragment_TrangChu(){
 
@@ -80,12 +85,19 @@ public class Fragment_TrangChu extends Fragment implements click_nhaphathanh {
         list_nsx = view.findViewById(R.id.list_nsx);
         Slide_khuyenMai = view.findViewById(R.id.Slide_khuyenMai);
         list_sanpham = view.findViewById(R.id.list_sanpham);
+        timkiem = view.findViewById(R.id.timkiem);
+        textInputLayout = view.findViewById(R.id.textInputLayout);
         requestInterface = ((MainActivity)getActivity()).build_API();
         getNSX();
         getKhuyenMai();
         ((MainActivity)getActivity()).controlHorizontalScrollingInViewPager2(list_nsx,viewPager2);
         GetSanPham();
-
+        timkiem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(),SearchActivity.class));
+            }
+        });
     }
     private void GetSanPham()
     {

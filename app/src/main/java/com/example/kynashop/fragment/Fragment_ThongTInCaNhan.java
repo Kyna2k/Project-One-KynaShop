@@ -39,6 +39,11 @@ import com.example.kynashop.view.CapNhatThongTinActivity;
 import com.example.kynashop.view.LoginActivity;
 import com.example.kynashop.view.MainActivity;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -62,6 +67,8 @@ public class Fragment_ThongTInCaNhan extends Fragment {
     private CardView doiavatar,capnhatthongtin,dangxuat;
     private KhachHang khachHang_send;
     private API_Services requestInterface;
+    GoogleSignInClient mGoogleSignInClient;
+    GoogleSignInOptions gso;
     public Fragment_ThongTInCaNhan()
     {
 
@@ -108,6 +115,10 @@ public class Fragment_ThongTInCaNhan extends Fragment {
                 startActivity(intent);
             }
         });
+        gso= new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
         doiavatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,12 +129,23 @@ public class Fragment_ThongTInCaNhan extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().finish();
+                startActivity(new Intent(getActivity(),LoginActivity.class));
                 LoginManager.getInstance().logOut();
+                setLogout_google();
             }
         });
         setValue();
     }
+    public void setLogout_google()
+    {
+        mGoogleSignInClient.signOut().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
 
+            }
+        });
+
+    }
     @Override
     public void onResume() {
         super.onResume();

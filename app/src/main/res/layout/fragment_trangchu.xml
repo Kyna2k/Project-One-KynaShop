@@ -23,7 +23,7 @@
             android:background="@drawable/background_search"
             app:boxStrokeColor="@android:color/transparent"
             app:boxStrokeWidth="0dp"
-            android:enabled="false"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:startIconDrawable="@mipmap/search24"
@@ -31,6 +31,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/timkiem"
+                android:focusableInTouchMode="false"
+                android:focusable="false"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Tìm kiếm sản phẩm"

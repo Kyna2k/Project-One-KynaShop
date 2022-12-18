@@ -27,6 +27,13 @@
         android:theme="@style/Theme.KynaShop"
         tools:targetApi="31">
         <activity
+            android:name=".view.SearchActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".view.ChiTietHoaDonActivity"
             android:exported="false">
             <meta-data

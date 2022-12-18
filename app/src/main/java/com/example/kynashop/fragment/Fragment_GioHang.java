@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -199,32 +201,52 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
 
     @Override
     public void btn_giam(ChiTietHoaDon chiTietHoaDon) {
+
         update(chiTietHoaDon,false);
 
     }
 
     @Override
-    public void edit_soluong(EditText editText) {
-        editText.addTextChangedListener(new TextWatcher() {
+    public void edit_soluong(EditText editText, ChiTietHoaDon chiTietHoaDon) {
+
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i == EditorInfo.IME_ACTION_GO)
+                {
+                    if(!editText.getText().toString().equals(""))
+                    {
+                        int value_ne = Integer.parseInt(editText.getText().toString());
+                        if(value_ne > chiTietHoaDon.getSanPham().getSoLuongTrongKho())
+                        {
+                            editText.setText(chiTietHoaDon.getSanPham().getSoLuongTrongKho() + "");
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+                        }else if(value_ne < 1)
+                        {
+                            editText.setText("1");
+                        }
+                        chiTietHoaDon.setSoLuong(Integer.parseInt(editText.getText().toString()));
+                        yodate_theoo(chiTietHoaDon);
+                    }else {
+                        chiTietHoaDon.setSoLuong(1);
+                        yodate_theoo(chiTietHoaDon);
+                    }
+                    return true;
+                }
+                return false;
             }
         });
 
     }
 
-
+    public void yodate_theoo(ChiTietHoaDon chiTietHoaDon)
+    {
+        new CompositeDisposable().add(requestInterface.updateSoLuongTrongGioHang(chiTietHoaDon)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::update_ok, this::update_nook)
+        );
+    }
     public void update(ChiTietHoaDon chiTietHoaDon, boolean check)
     {
         int soluong = chiTietHoaDon.getSoLuong();
@@ -232,7 +254,14 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
         {
             chiTietHoaDon.setSoLuong(soluong+1);
         }else {
-            chiTietHoaDon.setSoLuong(soluong-1);
+            if(soluong-1 <1)
+            {
+                chiTietHoaDon.setSoLuong(1);
+                Toast.makeText(getActivity(), "Không thể giảm số lượng nữa", Toast.LENGTH_SHORT).show();
+            }else {
+                chiTietHoaDon.setSoLuong(soluong-1);
+
+            }
 
         }
         new CompositeDisposable().add(requestInterface.updateSoLuongTrongGioHang(chiTietHoaDon)
@@ -249,7 +278,6 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
     private void update_ok(Integer integer) {
         if(integer > 0)
         {
-            Toast.makeText(getContext(), "Thanh cong", Toast.LENGTH_SHORT).show();
             getValue();
         }else if(integer == -200) {
             Toast.makeText(getContext(), "Số lượng sản phẩm trong kho không đủ", Toast.LENGTH_SHORT).show();

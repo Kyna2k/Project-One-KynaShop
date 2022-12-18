@@ -9,5 +9,5 @@ public interface Click_item_GioHang {
     public void xoa(int MaSanPham);
     public void btn_tang(ChiTietHoaDon chiTietHoaDon);
     public void btn_giam(ChiTietHoaDon chiTietHoaDon);
-    public void edit_soluong(EditText editText);
+    public void edit_soluong(EditText editText,ChiTietHoaDon chiTietHoaDon);
 }

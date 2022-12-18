@@ -97,4 +97,7 @@ public interface API_Services {
 
     @POST("HuyDonHang")
     Observable<Integer> HuyDonHang(@Query("MaDonHang") int MaDonHang, @Query("maNhanVien") int maNhanVien);
+
+    @GET("Search")
+    Observable<ArrayList<SanPhams>> Search(@Query("value") String value);
 }
