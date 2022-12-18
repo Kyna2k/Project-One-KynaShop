@@ -149,6 +149,12 @@ public class Fragment_GioHang extends Fragment implements Click_item_GioHang {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         list_giohang.setLayoutManager(linearLayoutManager);
         list_giohang.setAdapter(adapter_giohang);
+        if(ds.size() < 1)
+        {
+            btn_mua.setEnabled(false);
+        }else {
+            btn_mua.setEnabled(true);
+        }
     }
     @SuppressLint("NewApi")
     public void setMoney(ArrayList<ChiTietHoaDon> ds)
