@@ -195,35 +195,31 @@ public class CapNhatThongTinActivity extends AppCompatActivity {
         public void onClick(View view) {
             if(number_phone.getText().toString().length() >= 10 && number_phone.getText().toString().length() <=12)
             {
-//                int x = -1;
-//                if(ds_khachhang.size() > 0)
-//                {
-//                    for(KhachHang kh : ds_khachhang)
-//                    {
-//                        if((kh.getSoDienThoai() != null) && (kh.getSoDienThoai().equals(number_phone.getText().toString())))
-//                        {
-//                            x++;
-//                            break;
-//                        }
-//                    }
-//                }
-//
-//                if(x == 0) {
-//                    Toast.makeText(CapNhatThongTinActivity.this, "Số Điện đã tồn tại", Toast.LENGTH_SHORT).show();
-//                }else {
-//                    PhoneAuthOptions options = PhoneAuthOptions.newBuilder()
-//                            .setPhoneNumber("+84" +number_phone.getText().toString())
-//                            .setTimeout(60L, TimeUnit.SECONDS)
-//                            .setActivity(CapNhatThongTinActivity.this)
-//                            .setCallbacks(mCallbacks)
-//                            .build();
-//                    PhoneAuthProvider.verifyPhoneNumber(options);
-//                    dialog_OTP();
-//                }
-                btn_capnhat.setEnabled(true);
-                btn_xacthuc.setText("Đã xác thực");
-                btn_xacthuc.setEnabled(false);
-                number_phone.setEnabled(false);
+                int x = -1;
+                if(ds_khachhang.size() > 0)
+                {
+                    for(KhachHang kh : ds_khachhang)
+                    {
+                        if((kh.getSoDienThoai() != null) && (kh.getSoDienThoai().equals(number_phone.getText().toString())))
+                        {
+                            x++;
+                            break;
+                        }
+                    }
+                }
+
+                if(x == 0) {
+                    Toast.makeText(CapNhatThongTinActivity.this, "Số Điện đã tồn tại", Toast.LENGTH_SHORT).show();
+                }else {
+                    PhoneAuthOptions options = PhoneAuthOptions.newBuilder()
+                            .setPhoneNumber("+84" +number_phone.getText().toString())
+                            .setTimeout(60L, TimeUnit.SECONDS)
+                            .setActivity(CapNhatThongTinActivity.this)
+                            .setCallbacks(mCallbacks)
+                            .build();
+                    PhoneAuthProvider.verifyPhoneNumber(options);
+                    dialog_OTP();
+                }
             }else {
                 Toast.makeText(CapNhatThongTinActivity.this, "Vui lòng nhập đúng định dạng số điện thoại", Toast.LENGTH_SHORT).show();
             }

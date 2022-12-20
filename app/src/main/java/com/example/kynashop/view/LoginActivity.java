@@ -111,23 +111,23 @@ public class LoginActivity extends AppCompatActivity {
         btn_dangnhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(number_phone.getText().toString().length() >= 10 && number_phone.getText().toString().length() <=12)
-//                {
-//                    PhoneAuthOptions options = PhoneAuthOptions.newBuilder()
-//                            .setPhoneNumber("+84" +number_phone.getText().toString())
-//                            .setTimeout(60L, TimeUnit.SECONDS)
-//                            .setActivity(LoginActivity.this)
-//                            .setCallbacks(mCallbacks)
-//                            .build();
-//                    PhoneAuthProvider.verifyPhoneNumber(options);
-//                    dialog_OTP();
-//                }else {
-//                    Toast.makeText(LoginActivity.this, "Vui lòng nhập đúng định dạng số điện thoại", Toast.LENGTH_SHORT).show();
-//                }
-                LoadingScreen.LoadingShow(LoginActivity.this,"Đang đăng nhập");
-                LoginModel loginModel = new LoginModel(number_phone.getText().toString(),1);
-                type = 1;
-                login(loginModel);
+                if(number_phone.getText().toString().length() >= 10 && number_phone.getText().toString().length() <=12)
+                {
+                    PhoneAuthOptions options = PhoneAuthOptions.newBuilder()
+                            .setPhoneNumber("+84" +number_phone.getText().toString())
+                            .setTimeout(60L, TimeUnit.SECONDS)
+                            .setActivity(LoginActivity.this)
+                            .setCallbacks(mCallbacks)
+                            .build();
+                    PhoneAuthProvider.verifyPhoneNumber(options);
+                    dialog_OTP();
+                }else {
+                    Toast.makeText(LoginActivity.this, "Vui lòng nhập đúng định dạng số điện thoại", Toast.LENGTH_SHORT).show();
+                }
+//                LoadingScreen.LoadingShow(LoginActivity.this,"Đang đăng nhập");
+//                LoginModel loginModel = new LoginModel(number_phone.getText().toString(),1);
+//                type = 1;
+//                login(loginModel);
 
             }
         });
@@ -346,6 +346,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Update UI
 
                             Toast.makeText(LoginActivity.this, "Thành Công", Toast.LENGTH_SHORT).show();
+                            login(new LoginModel(number_phone.getText().toString(),1));
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w("check", "signInWithCredential:failure", task.getException());

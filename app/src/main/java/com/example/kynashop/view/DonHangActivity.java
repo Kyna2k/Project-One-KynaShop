@@ -115,7 +115,7 @@ public class DonHangActivity extends AppCompatActivity {
 
                 CreateOrder orderApi = new CreateOrder();
                 try {
-                    JSONObject data = orderApi.createOrder("1000");
+                    JSONObject data = orderApi.createOrder("500000");
                     String code = data.getString("returncode");
 
                     if (code.equals("1")) {
@@ -248,7 +248,7 @@ public class DonHangActivity extends AppCompatActivity {
     }
 
     private void handleResponse(KhachHang khachHang) {
-        if(khachHang.getSoDienThoai() != null && khachHang.getDiaChi() != null && khachHang.getTenKhachHang() != null)
+        if(khachHang.getSoDienThoai() != null && khachHang.getDiaChi() != null && khachHang.getTenKhachHang() != null && khachHang.getEmail() !=null)
         {
             ten_khachhang.setText("Tên khách hàng: " + khachHang.getTenKhachHang());
             sdt.setText("Số điện thoại: " + khachHang.getSoDienThoai());
